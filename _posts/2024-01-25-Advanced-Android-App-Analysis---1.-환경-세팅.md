@@ -10,6 +10,9 @@ categories: [Vulnerable Research, ]
 # 1. 개요
 
 
+---
+
+
 ## 1.1. 타겟 설정
 
 
@@ -78,12 +81,30 @@ categories: [Vulnerable Research, ]
 # 2. 환경 구축
 
 
+---
+
+
 ## 2.1. 가상 머신 설치
 
 
 분석을 위한 가상 머신을 설치했다. windows 를 사용했다면 vmware 를 사용하여 ubuntu22.04 amd64 버전을 설치했겠지만, 맥북을 사용하고 있기 때문에 `Parellels` 를 사용하여 `ubuntu22.04 aarch64` 를 설치했다.
 
-- host :
+
+> Host
+
+
+> 
+
+	- machine : Macbook Air
+	- arch : Apple m1
+	- memory : 16GB
+	- ssd : 1TB
+
+### Guest
+
+- Hypervisor : Parellels
+- OS : ubuntu22.04
+- arch : aarch64
 
 ## 2.2. Android SDK 설치
 
@@ -118,10 +139,10 @@ categories: [Vulnerable Research, ]
 ---
 
 
- 나는 시스템 이미지 다운로드 및 AVD 생성, 에뮬레이트를 해야 되기 때문에 `Android SDK 명령줄 도구` 와 `Android Emulator` 를 다운로드 했다.
+ 나는 시스템 이미지 다운로드 및 AVD 생성, 에뮬레이트를 해야 되기 때문에 **`Android SDK 명령줄 도구`** 와 **`Android Emulator`** 를 다운로드 했다.
 
 
-처음에 `Android Emulator` 는 어디서 다운로드 하는지 
+처음에 `Android Emulator` 는 어디서 다운로드 하는지 몰라서 헤맸었
 
 
 # Reference
