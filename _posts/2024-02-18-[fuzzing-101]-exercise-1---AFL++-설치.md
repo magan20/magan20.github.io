@@ -2,7 +2,7 @@
 layout: post
 date: 2024-02-18
 title: "[fuzzing 101] exercise 1 - AFL++ 설치"
-tags: [Fuzzing, afl++, ]
+tags: [Fuzzing, afl++, webhacking, ]
 categories: [Fuzzing, ]
 ---
 
