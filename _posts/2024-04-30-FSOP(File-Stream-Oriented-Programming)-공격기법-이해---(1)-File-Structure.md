@@ -202,22 +202,22 @@ struct _IO_FILE
 - **FILE**
 	- _IO_FILE 구조체에 대한 **타입**
 
-	{% raw %}
+{% raw %}
 ```c
-	typedef struct _IO_FILE FILE;
-	```
+typedef struct _IO_FILE FILE;
+```
 {% endraw %}
 
 - **_IO_FILE_plus**
 	- _IO_FILE 구조체에 vtable에 대한 포인터 변수가 추가된 **구조체**
 
-	{% raw %}
+{% raw %}
 ```c
-	struct _IO_FILE_plus {
-		FILE file;
-		const struct _IO_jump_t *vtable;
-	}
-	```
+struct _IO_FILE_plus {
+	FILE file;
+	const struct _IO_jump_t *vtable;
+}
+```
 {% endraw %}
 
 
@@ -343,7 +343,23 @@ struct _IO_FILE_plus *_IO_list_all = &_IO_2_1_stderr_;
 {% endraw %}
 
 
-**_IO_2_1_stdin_**, **_IO_2_1_stdout_**, **_IO_2_1_stderr_**  를 각각 선언
+**_IO_2_1_stdin_**, **_IO_2_1_stdout_**, **_IO_2_1_stderr_**  를 차례로 선언하면서, 자신의 멤버 변수인 **_chain**의 값을 이전에 선언된 구조체 변수의 주소로 설정한다.
+
+
+그리고, 3개의 구조체 변수가 다 선언된 후에는 **_IO_FILE_plus** 포인터 변수인 **_IO_list_all** 변수를 선언하여 **_IO_2_1_stderr_** 의 주소를 넘겨준다.
+
+
+즉, 다음과 같이 연결리스트 형식으로 관리되며, **_IO_list_all** 포인터 변수를 사용하여 모든 변수에 접근할 수 있다.
+
+
+{% raw %}
+```c
+_IO_2_1_stdin_._chain = 0;
+_IO_2_1_stdout_._chain = &_IO_2_1_stdin_;
+_IO_2_1_stderr_._chain = &_IO_2_1_stdout_;
+_IO_list_all = &_IO_2_1_stderr;
+```
+{% endraw %}
 
 
 ### 4.3. stdin vs _IO_2_1_stdin_
