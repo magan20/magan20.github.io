@@ -81,6 +81,7 @@ Glibc 에서도 **File Stream**을 호출할 때 위와 비슷한 메커니즘�
 
 {% raw %}
 ```c
+
 // https://elixir.bootlin.com/glibc/glibc-2.34/source/libio/bits/types/FILE.h#L7
 typedef struct _IO_FILE FILE;
 
@@ -127,6 +128,7 @@ struct _IO_FILE
 
 {% raw %}
 ```c
+
 // https://elixir.bootlin.com/glibc/glibc-2.34/source/libio/libio.h#L67
 #define _IO_MAGIC         0xFBAD0000 /* Magic number */
 #define _IO_MAGIC_MASK    0xFFFF0000
@@ -257,6 +259,7 @@ pwnable 문제를 풀다보면 **_IO_2_1_stdin_**이라는 변수를 본 적이 
 
 {% raw %}
 ```c
+
 //https://elixir.bootlin.com/glibc/glibc-2.34/source/libio/libioP.h#L809
 #  define FILEBUF_LITERAL(CHAIN, FLAGS, FD, WDP) \
        { _IO_MAGIC+_IO_LINKED+_IO_IS_FILEBUF+FLAGS, \
@@ -366,6 +369,7 @@ struct _IO_FILE_plus *_IO_list_all = &_IO_2_1_stderr_;
 
 {% raw %}
 ```c
+
 // https://elixir.bootlin.com/glibc/glibc-2.34/source/libio/libio.h#L149
 extern struct _IO_FILE_plus _IO_2_1_stdin_;
 extern struct _IO_FILE_plus _IO_2_1_stdout_;
@@ -376,6 +380,7 @@ extern struct _IO_FILE_plus _IO_2_1_stderr_;
 
 {% raw %}
 ```c
+
 // https://elixir.bootlin.com/glibc/glibc-2.34/source/libio/stdio.c#L33
 #include "libioP.h"
 #include "stdio.h"
@@ -394,27 +399,9 @@ FILE *stderr = (FILE *) &_IO_2_1_stderr_;
 
 - **stdin** == **&_IO_2_1_stdin_**
 
-	![7](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/7.png)
+![7](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/7.png)
 
 - ***(struct _IO_FILE_plus *)stdin** == **_IO_2_1_stdin_**
-
-![8](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/8.png)
-
-
-![9](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/9.png)
-
-
-![10](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/10.png)
-
-
-![11](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/11.png)
-
-
-![12](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/12.png)
-
-
-![13](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/13.png)
-
 
 ## 05. FILE stream related function
 
@@ -431,7 +418,7 @@ FILE *stderr = (FILE *) &_IO_2_1_stderr_;
 대략적인 fopen 함수의 동작은 다음과 같다.
 
 
-![14](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/14.png)
+![8](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/8.png)
 
 
 fopen 함수를 호출 할 때, FILE 구조체에 대한 메모리 공간을 할당한 후, _flag 및 vtable 과 같은 FILE 구조체 멤버를 초기화 한다. 이후, FILE 구조체를 FILE Stream의 연결 리스트에 추가하고, open 시스템 콜을 호출하여 파일 디스크립터를 할당한다.
