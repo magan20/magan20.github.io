@@ -163,17 +163,17 @@ struct _IO_FILE
 
 **Write Buffer**
 
-- IO_write_ptr
+- _IO_write_ptr
 	- write 버퍼의 현재 주소를 나타냄
-- IO_write_end
+- _IO_write_end
 	- 사용중인 write 버퍼의 끝 주소를 나타냄
-- IO_write_base
+- _IO_write_base
 	- 사용중인 write 버퍼의 시작 주소를 나타냄
 
 **Reserve Buffer**
 
-- IO_buf_base
-- IO_buf_end
+- _IO_buf_base
+- _IO_buf_end
 
 **_fileno**
 
@@ -239,7 +239,7 @@ struct _IO_FILE_plus {
 ![3](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/3.png)
 
 
-### **4.2. _IO_2_1_stdin_**
+### **4.2 _IO_2_1_stdin_**
 
 
 pwnable 문제를 풀다보면 **_IO_2_1_stdin_**이라는 변수를 본 적이 있을 것이다. 
@@ -252,9 +252,6 @@ pwnable 문제를 풀다보면 **_IO_2_1_stdin_**이라는 변수를 본 적이 
 
 
 실제 Glibc에서는 매크로를 사용하여 **_IO_2_1_stdin_**, **_IO_2_1_stdout_**, **_IO_2_1_stderr_** 를 선언하고 있으며, 매크로를 풀이한 실제 동작은 다음과 같다.
-
-<details>
-  <summary>**Glibc**</summary>
 
 
 {% raw %}
@@ -287,8 +284,6 @@ libc_hidden_data_def (_IO_list_all)
 {% endraw %}
 
 
-
-  </details>
 {% raw %}
 ```c
 struct _IO_FILE_plus _IO_2_1_stdin_ = {
@@ -346,7 +341,10 @@ struct _IO_FILE_plus *_IO_list_all = &_IO_2_1_stderr_;
 **_IO_2_1_stdin_**, **_IO_2_1_stdout_**, **_IO_2_1_stderr_**  를 차례로 선언하면서, 자신의 멤버 변수인 **_chain**의 값을 이전에 선언된 구조체 변수의 주소로 설정한다.
 
 
-그리고, 3개의 구조체 변수가 다 선언된 후에는 **_IO_FILE_plus** 포인터 변수인 **_IO_list_all** 변수를 선언하여 **_IO_2_1_stderr_** 의 주소를 넘겨준다.
+그리고, 3개의 구조체 변수가 다 선언된 후에는 **_IO_FILE_plus** 포인터 변수인 **_IO_list_all** 변수를 선언하여
+
+
+**_IO_2_1_stderr_** 의 주소를 넘겨준다.
 
 
 즉, 다음과 같이 연결리스트 형식으로 관리되며, **_IO_list_all** 포인터 변수를 사용하여 모든 변수에 접근할 수 있다.
@@ -365,10 +363,10 @@ _IO_list_all = &_IO_2_1_stderr;
 ### 4.3. stdin vs _IO_2_1_stdin_
 
 
-**stdin**과 **_IO_2_1_stdin_** 은 비슷하면서도 다른점이 있다.
+**stdin**과 **_IO_2_1_stdin_**은 비슷하면서도 다른점이 있다.
 
 
-먼저 앞서 말했듯이 **stdin**은 **FILE** 타입에 대한 **포인터형 변수**이고, 이에 반해 **_IO_2_1_stdin_**은 **_IO_FILE_plus** 에 대한 **구조체 변수**이다.
+먼저 앞서 말했듯이 **stdin**은 **FILE** 타입에 대한 **포인터형 변수**이고, 이에 반해  **_IO_2_1_stdin_**은 **_IO_FILE_plus** 에 대한 **구조체 변수**이다.
 
 
 즉 **stdin은** 포인터형 변수이기 때문에 gdb에 `p stdin` 명령어를 입력했을 때 주소가 출력되고, **_IO_2_1_stdin_**는 구조체 변수이기 때문에 `p _IO_2_1_stdin_` 을 입력했을 때 구조체의 내용이 출력된다.
@@ -380,7 +378,7 @@ _IO_list_all = &_IO_2_1_stderr;
 ![6](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/6.png)
 
 
-**stdin**은 **_IO_2_1_stdin_**의 주소를 가지고 있으며, 실제 Glibc에서 stdin과 _IO_2_1_stdin_ 의 관계는 다음과 같다.
+**stdin**은 **_IO_2_1_stdin_**의 주소를 가지고 있으며, 실제 Glibc에서 stdin과 **_IO_2_1_stdin_** 의 관계는 다음과 같다.
 
 
 {% raw %}
@@ -417,7 +415,6 @@ FILE *stderr = (FILE *) &_IO_2_1_stderr_;
 
 ![7](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/7.png)
 
-- ***(struct _IO_FILE_plus *)stdin** == **_IO_2_1_stdin_**
 
 ## 05. FILE stream related function
 
@@ -425,7 +422,10 @@ FILE *stderr = (FILE *) &_IO_2_1_stderr_;
 ---
 
 
-**File Stream** 객체를 생성한 후에는 **fopen**, **fread**, **fwrite**, **fclose**  등의 함수를 사용하여 파일 열기, 닫기 및 입출력 작업을 할 수 있다. 실제로 파일 스트림과 관련된 함수의 동작을 살펴보자. 
+**File Stream** 객체를 생성한 후에는 **fopen**, **fread**, **fwrite**, **fclose**  등의 함수를 사용하여 파일 열기, 닫기 및 입출력 작업을 할 수 있다. 
+
+
+파일 스트림과 관련된 함수의 실제 동작을 살펴보자. 
 
 
 ### 5.1. fopen
