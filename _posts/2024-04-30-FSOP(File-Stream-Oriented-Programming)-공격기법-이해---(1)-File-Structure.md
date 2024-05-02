@@ -7,7 +7,7 @@ categories: [Pwnable, ]
 ---
 
 
-## 00. 개요
+## 0. 개요
 
 
 해당 글은 **FSOP(File-Stream Oriented Programming)**라는 기법을 이해하기 위한 기초 배경 지식을 공부하고, 실제 공격 원리를 이해하기 위해 작성되었다.
@@ -19,7 +19,7 @@ categories: [Pwnable, ]
 **File Stream**은 C언어와 컴퓨터를 구성하는 다양한 장치에서 사용되며, **FSOP**의 타겟 벡터인 만큼 그 개념을 확실히 이해하고 넘어가야 한다.
 
 
-## 01. 리눅스에서 파일 입출력 동작
+## 1. 리눅스에서 파일 입출력 동작
 
 
 ---
@@ -37,7 +37,7 @@ categories: [Pwnable, ]
 ![0](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/0.png)
 
 
-## 02. File Stream
+## 2. File Stream
 
 
 ---
@@ -64,7 +64,7 @@ Glibc 에서도 **File Stream**을 호출할 때 위와 비슷한 메커니즘�
 ![1](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/1.png)
 
 
-## 03. File Structure
+## 3. File Structure
 
 
 ---
@@ -121,65 +121,6 @@ struct _IO_FILE
 {% endraw %}
 
 
-**_flag**
-
-- 파일 스트림에서 `read only` 나 `append` 와 같은 속성들을 기록하는 멤버 변수
-- 파일 버퍼링의 상태를 보여준다.
-
-{% raw %}
-```c
-
-// https://elixir.bootlin.com/glibc/glibc-2.34/source/libio/libio.h#L67
-#define _IO_MAGIC         0xFBAD0000 /* Magic number */
-#define _IO_MAGIC_MASK    0xFFFF0000
-#define _IO_USER_BUF          0x0001 /* Don't deallocate buffer on close. */
-#define _IO_UNBUFFERED        0x0002
-#define _IO_NO_READS          0x0004 /* Reading not allowed.  */
-#define _IO_NO_WRITES         0x0008 /* Writing not allowed.  */
-#define _IO_EOF_SEEN          0x0010
-#define _IO_ERR_SEEN          0x0020
-#define _IO_DELETE_DONT_CLOSE 0x0040 /* Don't call close(_fileno) on close.  */
-#define _IO_LINKED            0x0080 /* In the list of all open files.  */
-#define _IO_IN_BACKUP         0x0100
-#define _IO_LINE_BUF          0x0200
-#define _IO_TIED_PUT_GET      0x0400 /* Put and get pointer move in unison.  */
-#define _IO_CURRENTLY_PUTTING 0x0800
-#define _IO_IS_APPENDING      0x1000
-#define _IO_IS_FILEBUF        0x2000
-                           /* 0x4000  No longer used, reserved for compat.  */
-#define _IO_USER_LOCK         0x8000
-```
-{% endraw %}
-
-
-**Read Buffer**
-
-- _IO_read_ptr
-	- 현재 read 버퍼의 위치를 나타냄
-- _IO_read_end
-	- 사용중인 read 버퍼의 끝 주소를 나타냄
-- _IO_read_base
-	- 사용중인 read 버퍼의 시작 주소를 나타냄
-
-**Write Buffer**
-
-- _IO_write_ptr
-	- write 버퍼의 현재 주소를 나타냄
-- _IO_write_end
-	- 사용중인 write 버퍼의 끝 주소를 나타냄
-- _IO_write_base
-	- 사용중인 write 버퍼의 시작 주소를 나타냄
-
-**Reserve Buffer**
-
-- _IO_buf_base
-- _IO_buf_end
-
-**_fileno**
-
-- 파일 구조체에 연결된 파일의 파일 디스크립터 번호
-- stdin(0), stdout(1), stderr(2) 등이 있다.
-
 ### 3.2. _IO_FILE_plus
 
 
@@ -221,7 +162,7 @@ struct _IO_FILE_plus {
 {% endraw %}
 
 
-## 04. stdin vs _IO_2_1_stdin_
+## 4. stdin vs _IO_2_1_stdin_
 
 
 ---
@@ -246,6 +187,9 @@ pwnable 문제를 풀다보면 **_IO_2_1_stdin_**이라는 변수를 본 적이 
 
 
 **_IO_2_1_stdin_**은 **_IO_FILE_plus** 구조체 변수로 선언되며, gdb를 사용하여 **_IO_2_1_stdin_**의 정보를 확인하면 다음과 같다. 
+
+
+**stdin**과 달리 **vtable**이 추가되어 있는 것을 확인할 수 있다.
 
 
 ![4](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/4.png)
@@ -416,7 +360,16 @@ FILE *stderr = (FILE *) &_IO_2_1_stderr_;
 ![7](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/7.png)
 
 
-## 05. FILE stream related function
+### 4.4. 정리
+
+- **stdin**
+	- **FILE(=_IO_FILE)** 포인터 변수
+	- **_IO_2_1_stdin_**변수의 주소를 가지고 있음
+- **_IO_2_1_stdin_**
+	- **_IO_FILE_plus** 구조체 변수
+	- **_IO_list_all** 변수에 연결리스트로 이어져 있음
+
+## 5. FILE stream related function
 
 
 ---
@@ -431,21 +384,89 @@ FILE *stderr = (FILE *) &_IO_2_1_stderr_;
 ### 5.1. fopen
 
 
-대략적인 fopen 함수의 동작은 다음과 같다.
+대략적인 **fopen** 함수의 동작은 다음과 같다.
 
 
 ![8](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/8.png)
 
 
-fopen 함수를 호출 할 때, FILE 구조체에 대한 메모리 공간을 할당한 후, _flag 및 vtable 과 같은 FILE 구조체 멤버를 초기화 한다. 이후, FILE 구조체를 FILE Stream의 연결 리스트에 추가하고, open 시스템 콜을 호출하여 파일 디스크립터를 할당한다.
+**fopen** 함수를 호출 할 때, **FILE** 구조체에 대한 메모리 공간을 할당한 후, **_flag** 및 **vtable** 과 같은 **FILE** 구조체 멤버를 초기화 한다. 이후, **FILE** 구조체를 **FILE Stream**의 연결 리스트에 추가하고, **open** 시스템 콜을 호출하여 파일 디스크립터를 할당한다.
+
+
+**fopen**에 대한 첫 번째 선언은 **include/stdio.h** 에서 확인할 수 있다.
+
+
+**fopen**은 매크로로 선언되어 있으며, 실제 구현은 **_IO_new_fopen** 함수에 있다.
+
+
+{% raw %}
+```c
+// https://elixir.bootlin.com/glibc/glibc-2.34/source/include/stdio.h#L190
+#   define fopen(fname, mode) _IO_new_fopen (fname, mode)
+```
+{% endraw %}
 
 
  
 
 
+**_IO_new_fopen**은 다시 **__fopen_internal**함수를 호출한다.
+
+
+{% raw %}
+```c
+// https://elixir.bootlin.com/glibc/glibc-2.34/source/libio/iofopen.c#L84
+FILE *_IO_new_fopen (const char *filename, const char *mode)
+{
+  return __fopen_internal (filename, mode, 1);
+}
+```
+{% endraw %}
+
+
+**__fopen_internal** 함수에서 하는 일은 다음과 같다.
+
+
+{% raw %}
+```c
+// https://elixir.bootlin.com/glibc/glibc-2.34/source/libio/iofopen.c#L56
+FILE * __fopen_internal (const char *filename, const char *mode, int is32)
+{
+  struct locked_FILE
+  {
+    struct _IO_FILE_plus fp;
+    _IO_lock_t lock;
+    struct _IO_wide_data wd;
+  } *new_f = (struct locked_FILE *) malloc (sizeof (struct locked_FILE));
+
+  if (new_f == NULL)
+    return NULL;
+    
+  new_f->fp.file._lock = &new_f->lock;
+
+  _IO_no_init (&new_f->fp.file, 0, 0, &new_f->wd, &_IO_wfile_jumps);
+  _IO_JUMPS (&new_f->fp) = &_IO_file_jumps;
+  _IO_new_file_init_internal (&new_f->fp);
+  if (_IO_file_fopen ((FILE *) new_f, filename, mode, is32) != NULL)
+    return __fopen_maybe_mmap (&new_f->fp.file);
+
+  _IO_un_link (&new_f->fp);
+  free (new_f);
+  return NULL;
+}
+```
+{% endraw %}
+
+
+**_IO_FILE_plus**, **_IO_lock_t**, **_IO_wide_data** 구조체를 포함하고 있는 **locked_FILE** 구조체와 그에 대한 포인터 변수 **new_f**를 선언한 후, **malloc**을 사용하여 공간을 할당한다.
+
+
+이후, new_f
+
+
 ### 5.2. fopen
 
 
-## 06. 참고
+## 6. 참고
 
 - [https://paper.bobylive.com/Meeting_Papers/HITB/2018/FILE Structures - Another Binary Exploitation Technique - An-Jie Yang.pdf](https://paper.bobylive.com/Meeting_Papers/HITB/2018/FILE%20Structures%20-%20Another%20Binary%20Exploitation%20Technique%20-%20An-Jie%20Yang.pdf)
