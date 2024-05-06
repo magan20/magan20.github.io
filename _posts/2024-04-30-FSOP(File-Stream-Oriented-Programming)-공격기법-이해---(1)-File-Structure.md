@@ -127,7 +127,15 @@ struct _IO_FILE
 **_IO_FILE_plus**는 확장된 **FILE** 구조체로, **FILE** 구조체에 **virtual function table(vtable)** 포인터가 추가된 형태다.
 
 
-![2](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/2.png)
+{% raw %}
+```c
+**gef➤**  **ptype struct _IO_FILE_plus
+type = struct _IO_FILE_plus {
+    FILE file;
+    const struct _IO_jump_t *vtable;
+}**
+```
+{% endraw %}
 
 
 모든 파일의 작업은 FILE 구조체의 vtable을 통해 이루어지며, 파일에 대한 입출력이 발생했을 때 함수를 직접 호출하는 것이 아닌 가상 함수를 호출하게 된다.
@@ -177,7 +185,12 @@ struct _IO_FILE_plus {
 여기서 **stdin**이 **FILE** 타입이 아니라 **FILE *** 타입, 즉 **포인터형**이라는 것을 기억하자
 
 
-![3](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/3.png)
+{% raw %}
+```c
+gef➤  p stdin
+$3 = (FILE *) 0x7ffff7faaaa0 <**_IO_2_1_stdin_**>
+```
+{% endraw %}
 
 
 ### **4.2 _IO_2_1_stdin_**
@@ -192,7 +205,45 @@ pwnable 문제를 풀다보면 **_IO_2_1_stdin_**이라는 변수를 본 적이 
 **stdin**과 달리 **vtable**이 추가되어 있는 것을 확인할 수 있다.
 
 
-![4](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/4.png)
+{% raw %}
+```c
+gef➤  p _IO_2_1_stdin_
+$4 = {
+  file = {
+    _flags = 0xfbad2088,
+    _IO_read_ptr = 0x0,
+    _IO_read_end = 0x0,
+    _IO_read_base = 0x0,
+    _IO_write_base = 0x0,
+    _IO_write_ptr = 0x0,
+    _IO_write_end = 0x0,
+    _IO_buf_base = 0x0,
+    _IO_buf_end = 0x0,
+    _IO_save_base = 0x0,
+    _IO_backup_base = 0x0,
+    _IO_save_end = 0x0,
+    _markers = 0x0,
+    _chain = 0x0,
+    _fileno = 0x0,
+    _flags2 = 0x0,
+    _old_offset = 0xffffffffffffffff,
+    _cur_column = 0x0,
+    _vtable_offset = 0x0,
+    _shortbuf = "",
+    _lock = 0x7ffff7faca80 <**_IO_stdfile_0_lock**>,
+    _offset = 0xffffffffffffffff,
+    _codecvt = 0x0,
+    _wide_data = 0x7ffff7faab80 <**_IO_wide_data_0**>,
+    _freeres_list = 0x0,
+    _freeres_buf = 0x0,
+    __pad5 = 0x0,
+    _mode = 0x0,
+    _unused2 = '\000' <repeats 19 times>
+  },
+  vtable = 0x7ffff7fa7600 <**_IO_file_jumps**>
+}
+```
+{% endraw %}
 
 
 실제 Glibc에서는 매크로를 사용하여 **_IO_2_1_stdin_**, **_IO_2_1_stdout_**, **_IO_2_1_stderr_** 를 선언하고 있으며, 매크로를 풀이한 실제 동작은 다음과 같다.
@@ -316,10 +367,10 @@ _IO_list_all = &_IO_2_1_stderr;
 즉 **stdin은** 포인터형 변수이기 때문에 gdb에 `p stdin` 명령어를 입력했을 때 주소가 출력되고, **_IO_2_1_stdin_**는 구조체 변수이기 때문에 `p _IO_2_1_stdin_` 을 입력했을 때 구조체의 내용이 출력된다.
 
 
-![5](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/5.png)
+![2](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/2.png)
 
 
-![6](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/6.png)
+![3](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/3.png)
 
 
 **stdin**은 **_IO_2_1_stdin_**의 주소를 가지고 있으며, 실제 Glibc에서 stdin과 **_IO_2_1_stdin_** 의 관계는 다음과 같다.
@@ -357,7 +408,14 @@ FILE *stderr = (FILE *) &_IO_2_1_stderr_;
 
 - **stdin** == **&_IO_2_1_stdin_**
 
-![7](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/7.png)
+{% raw %}
+```c
+gef➤  p stdin
+$6 = (FILE *) 0x7ffff7faaaa0 <**_IO_2_1_stdin_**>
+gef➤  p &_IO_2_1_stdin_
+$7 = (struct _IO_FILE_plus *) 0x7ffff7faaaa0 <**_IO_2_1_stdin_**>
+```
+{% endraw %}
 
 
 ### 4.4. 정리
@@ -387,10 +445,13 @@ FILE *stderr = (FILE *) &_IO_2_1_stderr_;
 대략적인 **fopen** 함수의 동작은 다음과 같다.
 
 
-![8](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/8.png)
+![4](/assets/img/2024-04-30-FSOP(File-Stream-Oriented-Programming)-공격기법-이해---(1)-File-Structure.md/4.png)
 
 
 **fopen** 함수를 호출 할 때, **FILE** 구조체에 대한 메모리 공간을 할당한 후, **_flag** 및 **vtable** 과 같은 **FILE** 구조체 멤버를 초기화 한다. 이후, **FILE** 구조체를 **FILE Stream**의 연결 리스트에 추가하고, **open** 시스템 콜을 호출하여 파일 디스크립터를 할당한다.
+
+
+> **fopen**
 
 
 **fopen**에 대한 첫 번째 선언은 **include/stdio.h** 에서 확인할 수 있다.
@@ -410,6 +471,9 @@ FILE *stderr = (FILE *) &_IO_2_1_stderr_;
  
 
 
+> **_IO_new_fopen**
+
+
 **_IO_new_fopen**은 다시 **__fopen_internal**함수를 호출한다.
 
 
@@ -422,6 +486,9 @@ FILE *_IO_new_fopen (const char *filename, const char *mode)
 }
 ```
 {% endraw %}
+
+
+> **__fopen_internal**
 
 
 **__fopen_internal** 함수에서 하는 일은 다음과 같다.
@@ -458,10 +525,161 @@ FILE * __fopen_internal (const char *filename, const char *mode, int is32)
 {% endraw %}
 
 
-**_IO_FILE_plus**, **_IO_lock_t**, **_IO_wide_data** 구조체를 포함하고 있는 **locked_FILE** 구조체와 그에 대한 포인터 변수 **new_f**를 선언한 후, **malloc**을 사용하여 공간을 할당한다.
+**_IO_FILE_plus**, **_IO_lock_t**, **_IO_wide_data** 구조체 변수를 포함하고 있는 **locked_FILE** 구조체를 선언하고, 그에 대한 포인터 변수 **new_f**를 선언한 후, **malloc**을 사용하여 공간을 할당한다. ( **Allocate FILE Structure** )
 
 
-이후, new_f
+{% raw %}
+```c
+  struct locked_FILE
+  {
+    struct _IO_FILE_plus fp;
+    _IO_lock_t lock;
+    struct _IO_wide_data wd;
+  } *new_f = (struct locked_FILE *) malloc (sizeof (struct locked_FILE));
+```
+{% endraw %}
+
+
+`_IO_no_init` 함수는 `new_f->fp.file` 멤버 변수와 `new_f->fp.file._wide_data` 멤버 변수의 값을 초기화한다.
+
+
+{% raw %}
+```c
+  _IO_no_init (&new_f->fp.file, 0, 0, &new_f->wd, &_IO_wfile_jumps);
+```
+{% endraw %}
+
+
+이후, `new_f->fp.file->vtable` 에 `_IO_jump_t` 구조체 변수인 `_IO_file_jumps` 의 주소를 할당하고, `new_f->fp.file` 의 `_offset` , `_flags` , `_fileno` 를 초기화한다.( **Initial the FILE Structure** )
+
+
+{% raw %}
+```c
+  _IO_JUMPS (&new_f->fp) = &_IO_file_jumps;
+  // new_f->fp->vtable = (struct _IO_jump_t *)&_IO_file_jumps;
+  _IO_new_file_init_internal (&new_f->fp);
+
+```
+{% endraw %}
+
+
+> **_IO_file_fopen** 
+
+
+해당 함수에서는 `r` , `w` , `a` 등의 `mode` 를 확인한 후, 다시 `_IO_file_open` 함수를 호출한다.
+
+
+{% raw %}
+```c
+// https://elixir.bootlin.com/glibc/glibc-2.27/source/libio/fileops.c#L212
+libc_hidden_ver (_IO_new_file_fopen, _IO_file_fopen)
+
+_IO_FILE * _IO_new_file_fopen (_IO_FILE *fp, const char *filename, const char *mode, int is32not64)
+{
+  int oflags = 0, omode;
+  int read_write;
+  int oprot = 0666;
+  int i;
+  _IO_FILE *result;
+  const char *cs;
+  const char *last_recognized;
+
+  if (_IO_file_is_open (fp))
+    return 0;
+  switch (*mode)
+    {
+    case 'r':
+      omode = O_RDONLY;
+      read_write = _IO_NO_WRITES;
+      break;
+    case 'w':
+      omode = O_WRONLY;
+      oflags = O_CREAT|O_TRUNC;
+      read_write = _IO_NO_READS;
+      break;
+    case 'a':
+      omode = O_WRONLY;
+      oflags = O_CREAT|O_APPEND;
+      read_write = _IO_NO_READS|_IO_IS_APPENDING;
+      break;
+    default:
+      __set_errno (EINVAL);
+      return NULL;
+    }
+  last_recognized = mode;
+  for (i = 1; i < 7; ++i)
+    {
+      switch (*++mode)
+	{
+	case '\0':
+	  break;
+	case '+':
+	  omode = O_RDWR;
+	  read_write &= _IO_IS_APPENDING;
+	  last_recognized = mode;
+	  continue;
+	case 'x':
+	  oflags |= O_EXCL;
+	  last_recognized = mode;
+	  continue;
+	case 'b':
+	  last_recognized = mode;
+	  continue;
+	case 'm':
+	  fp->_flags2 |= _IO_FLAGS2_MMAP;
+	  continue;
+	case 'c':
+	  fp->_flags2 |= _IO_FLAGS2_NOTCANCEL;
+	  continue;
+	case 'e':
+	  oflags |= O_CLOEXEC;
+	  fp->_flags2 |= _IO_FLAGS2_CLOEXEC;
+	  continue;
+	default:
+	  /* Ignore.  */
+	  continue;
+	}
+      break;
+    }
+
+  result = _IO_file_open (fp, filename, omode|oflags, oprot, read_write,
+			  is32not64);
+
+	...
+	
+  return result;
+}
+```
+{% endraw %}
+
+
+> **_IO_file_open**
+
+
+`_IO_file_open` 함수에서는 실제로 `open` 시스템콜을 호출하여 파일을 열고 파일 디스크립터 번호를 할당한다. ( **Open File** )
+
+
+{% raw %}
+```c
+// https://elixir.bootlin.com/glibc/glibc-2.27/source/libio/fileops.c#L181
+_IO_FILE * _IO_file_open (_IO_FILE *fp, const char *filename, int posix_mode, int prot, int read_write, int is32not64)
+{
+  int fdesc;
+  if (__glibc_unlikely (fp->_flags2 & _IO_FLAGS2_NOTCANCEL))
+    fdesc = __open_nocancel (filename,
+			     posix_mode | (is32not64 ? 0 : O_LARGEFILE), prot);
+  else
+    fdesc = __open (filename, posix_mode | (is32not64 ? 0 : O_LARGEFILE), prot);
+  if (fdesc < 0)
+    return NULL;
+  fp->_fileno = fdesc;
+	
+	...
+  
+  return fp;
+}
+```
+{% endraw %}
 
 
 ### 5.2. fopen
