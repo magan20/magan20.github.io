@@ -41,6 +41,9 @@ bundle install
 bundle exec jekyll serve
 ```
 
+이 저장소는 로컬의 구형 Ruby와 GitHub Actions의 Ruby 3.3을 함께 수용하기 위해 `Gemfile.lock`을 추적하지 않습니다.
+CI에서는 Ruby 3.3 기준 의존성이 해석되고, 구형 로컬 Ruby에서는 호환 가능한 Sass 변환기를 자동으로 선택합니다.
+
 ## Authoring Helpers
 
 ```bash
