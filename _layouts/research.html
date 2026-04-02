@@ -1,0 +1,46 @@
+---
+layout: default
+---
+
+{% include lang.html %}
+{% assign research_posts = site.posts | where_exp: 'item', 'item.hidden != true and item.tags contains "research-note"' %}
+{% assign hunting_posts = site.posts | where_exp: 'item', 'item.hidden != true and item.tags contains "threat-hunting"' %}
+{% assign note_posts = site.posts | where_exp: 'item', 'item.hidden != true and item.tags contains "notes"' %}
+
+<article class="px-1 signal-collection">
+  <h1 class="dynamic-title">{{ page.title }}</h1>
+
+  <div class="content">
+    {{ content }}
+  </div>
+
+  <section class="signal-filter signal-filter--compact" data-post-filter>
+    <div class="signal-filter__chips">
+      <button type="button" class="signal-filter__chip is-active" data-filter="all" data-filter-label="All Research">
+        All Research
+        <span>{{ research_posts | size }}</span>
+      </button>
+      <button type="button" class="signal-filter__chip" data-filter="research-note" data-filter-label="Research Note">
+        Research Note
+        <span>{{ research_posts | size }}</span>
+      </button>
+      <button type="button" class="signal-filter__chip" data-filter="threat-hunting" data-filter-label="Threat Hunting">
+        Threat Hunting
+        <span>{{ hunting_posts | size }}</span>
+      </button>
+      <button type="button" class="signal-filter__chip" data-filter="notes" data-filter-label="Notes">
+        Notes
+        <span>{{ note_posts | size }}</span>
+      </button>
+    </div>
+    <p class="signal-filter__status text-muted" data-filter-status>
+      {{ research_posts | size }}개의 리서치 노트를 표시 중입니다.
+    </p>
+  </section>
+
+  <div id="research-list" class="mt-4" data-post-list>
+    {% for post in research_posts %}
+      {% include post-card.html post=post %}
+    {% endfor %}
+  </div>
+</article>

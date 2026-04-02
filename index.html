@@ -1,68 +1,74 @@
 ---
 layout: home
-author_profile: false
-classes:
-  - wide
-  - home-modern
-entries_layout: grid
 ---
 
-<section class="signal-hero">
-  <div class="signal-hero__copy">
+{% assign research_notes = site.posts | where_exp: 'post', "post.tags contains 'research-note'" %}
+{% assign offensive_posts = site.posts | where_exp: 'post', "post.categories contains 'Offensive'" %}
+{% assign defensive_posts = site.posts | where_exp: 'post', "post.categories contains 'Defensive'" %}
+{% assign engineering_posts = site.posts | where_exp: 'post', "post.categories contains 'Engineering'" %}
+
+<section class="signal-hero" data-reveal>
+  <div class="signal-hero__body">
     <p class="signal-kicker">Security / Offensive / Engineering</p>
-    <h1>깔끔한 기록 위에<br>실전 감각을 남기는 보안 블로그.</h1>
+    <h1>Chirpy 위에 보안 리서치 흐름을 얹은, 검색과 탐색이 빠른 기술 블로그.</h1>
     <p class="signal-lead">
-      웹 공격 표면 분석, 탐지 파이프라인 설계, 짧은 리서치 노트, 자동화 도구 제작 과정을
-      한 흐름으로 연결해 기록합니다. 눈에 띄는 효과보다 읽기 쉬운 구조와 빠른 탐색을 우선합니다.
+      내장 검색, 다크 모드, TOC, 태그 아카이브, 빠른 필터를 기본으로 사용하면서
+      오펜시브 메모와 디펜시브 설계 노트를 한 흐름으로 정리합니다.
     </p>
     <div class="signal-actions">
-      <a class="btn btn--primary" href="{{ '/blog/' | relative_url }}">Latest Posts</a>
-      <a class="btn btn--inverse" href="{{ '/research/' | relative_url }}">Research Notes</a>
+      <a class="btn btn-primary" href="{{ '/research/' | relative_url }}">Research Notes</a>
+      <a class="btn btn-outline-primary" href="{{ '/archives/' | relative_url }}">Archives</a>
+      <a class="btn btn-outline-secondary" href="{{ '/about/' | relative_url }}">About</a>
     </div>
   </div>
-  <div class="signal-hero__panel">
-    <div class="signal-panel-card">
-      <span>Workflow</span>
-      <strong>Markdown-first publishing</strong>
-      <p>상단 검색, 카테고리, 태그, 관련 글로 연결되는 구조를 기본 흐름으로 사용합니다.</p>
+
+  <div class="signal-hero__panel" data-reveal>
+    <div class="signal-stat-grid">
+      <article class="signal-stat">
+        <strong>{{ site.posts | size }}</strong>
+        <span>Published Posts</span>
+      </article>
+      <article class="signal-stat">
+        <strong>{{ research_notes | size }}</strong>
+        <span>Research Notes</span>
+      </article>
+      <article class="signal-stat">
+        <strong>{{ site.tags | size }}</strong>
+        <span>Tags Indexed</span>
+      </article>
     </div>
-    <div class="signal-panel-grid">
-      <span>offensive</span>
-      <span>defensive</span>
-      <span>engineering</span>
-      <span>research-note</span>
+
+    <div class="signal-brief">
+      <span>Interactive Stack</span>
+      <p>Built-in search, theme switcher, pinned posts, TOC popup, back-to-top, and quick filters for faster browsing.</p>
     </div>
   </div>
 </section>
 
-<section class="signal-strip">
-  <span>taxonomy-driven browsing</span>
-  <span>copy-ready code blocks</span>
-  <span>built-in search</span>
-  <span>research-note workflow</span>
-</section>
-
-<section class="signal-grid">
-  {% for category in site.data.taxonomy.categories %}
-    <a class="signal-card signal-card--link" href="{{ '/categories/' | relative_url }}#{{ category.slug }}">
-      <p class="signal-card__eyebrow">{{ category.slug }}</p>
-      <h2>{{ category.label }}</h2>
-      <p>{{ category.description }}</p>
-    </a>
-  {% endfor %}
-</section>
-
-<section class="signal-section">
-  <div class="signal-section__header">
-    <p class="signal-kicker">Tag Explorer</p>
-    <h2 class="archive__subtitle">주요 태그로 빠르게 훑어보기</h2>
+<section class="signal-filter" data-post-filter>
+  <div class="signal-filter__chips">
+    <button type="button" class="signal-filter__chip is-active" data-filter="all" data-filter-label="All Posts">
+      All Posts
+      <span>{{ site.posts | size }}</span>
+    </button>
+    <button type="button" class="signal-filter__chip" data-filter="offensive" data-filter-label="Offensive">
+      Offensive
+      <span>{{ offensive_posts | size }}</span>
+    </button>
+    <button type="button" class="signal-filter__chip" data-filter="defensive" data-filter-label="Defensive">
+      Defensive
+      <span>{{ defensive_posts | size }}</span>
+    </button>
+    <button type="button" class="signal-filter__chip" data-filter="engineering" data-filter-label="Engineering">
+      Engineering
+      <span>{{ engineering_posts | size }}</span>
+    </button>
+    <button type="button" class="signal-filter__chip" data-filter="research-note" data-filter-label="Research Note">
+      Research Note
+      <span>{{ research_notes | size }}</span>
+    </button>
   </div>
-  <div class="signal-tag-grid">
-    {% for tag in site.data.taxonomy.tags %}
-      <a class="signal-tag-card" href="{{ '/tags/' | relative_url }}#{{ tag.slug | slugify }}">
-        <strong>{{ tag.label }}</strong>
-        <span>{{ tag.description }}</span>
-      </a>
-    {% endfor %}
-  </div>
+  <p class="signal-filter__status text-muted" data-filter-status>
+    {{ site.posts | size }}개의 글을 모두 표시 중입니다.
+  </p>
 </section>

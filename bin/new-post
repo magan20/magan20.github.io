@@ -7,7 +7,7 @@ if [ $# -lt 1 ]; then
 fi
 
 title="$1"
-lang="${2:-ko}"
+lang="${2:-ko-KR}"
 timestamp="$(TZ=Asia/Seoul date '+%Y-%m-%d %H:%M:%S %z')"
 slug="$(
   printf '%s' "$title" | ruby -e '
@@ -27,12 +27,13 @@ fi
 cat > "$file" <<EOF
 ---
 title: "$title"
-excerpt: ""
+description: ""
 date: $timestamp
-locale: $lang
+lang: $lang
 categories: [Engineering, Workflow]
 tags:
   - notes
+pin: false
 toc: true
 origin: manual
 content_id:

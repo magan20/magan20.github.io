@@ -1,0 +1,21 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" rx="36" fill="#F2F6FB"/>
+  <rect x="48" y="48" width="1104" height="534" rx="28" fill="#FFFFFF" stroke="#D8E3F2"/>
+  <path d="M108 148H1092" stroke="#D6E0EF"/>
+  <path d="M108 216H1092" stroke="#D6E0EF"/>
+  <path d="M108 284H1092" stroke="#D6E0EF"/>
+  <path d="M108 352H1092" stroke="#D6E0EF"/>
+  <path d="M108 420H1092" stroke="#D6E0EF"/>
+  <rect x="108" y="96" width="286" height="48" rx="24" fill="#E8F0FF"/>
+  <text x="136" y="127" fill="#224A7A" font-size="22" font-family="IBM Plex Mono, monospace">DEFENSIVE / ENGINEERING</text>
+  <text x="108" y="250" fill="#10233B" font-size="76" font-weight="700" font-family="Space Grotesk, sans-serif">Detection</text>
+  <text x="108" y="326" fill="#10233B" font-size="76" font-weight="700" font-family="Space Grotesk, sans-serif">Pipelines</text>
+  <text x="108" y="402" fill="#10233B" font-size="76" font-weight="700" font-family="Space Grotesk, sans-serif">as Product</text>
+  <text x="108" y="468" fill="#5D6C83" font-size="29" font-family="IBM Plex Sans, sans-serif">Inputs, enrichments, outputs, and operator trust in one design surface.</text>
+  <rect x="760" y="152" width="308" height="298" rx="24" fill="#10233B"/>
+  <rect x="798" y="194" width="232" height="58" rx="14" fill="#173A66"/>
+  <rect x="798" y="272" width="232" height="58" rx="14" fill="#215089"/>
+  <rect x="798" y="350" width="232" height="58" rx="14" fill="#2A66AD"/>
+  <path d="M914 252V272" stroke="#B8D4FF" stroke-width="4"/>
+  <path d="M914 330V350" stroke="#B8D4FF" stroke-width="4"/>
+</svg>

@@ -1,12 +1,15 @@
 ---
 title: "Packet Triage Template for Short-Lived Incidents"
-excerpt: "짧은 시간 안에 네트워크 이벤트를 분류할 때 사용하는 간단한 트리아지 체크리스트."
+description: "짧은 시간 안에 네트워크 이벤트를 분류할 때 사용하는 간단한 트리아지 체크리스트."
 date: 2026-03-20 22:10:00 +0900
 categories: [Defensive, Operations]
 tags:
   - threat-hunting
   - notes
   - research-note
+image:
+  path: /assets/img/posts/packet-triage/cover.svg
+  alt: Packet triage worksheet cover
 toc: true
 content_id: "research-packet-triage-template"
 origin: manual

@@ -1,0 +1,37 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" rx="36" fill="#0B1220"/>
+  <rect x="52" y="52" width="1096" height="526" rx="28" fill="url(#paint0_linear)"/>
+  <g opacity="0.12">
+    <path d="M80 120H1120" stroke="#E2E8F0"/>
+    <path d="M80 200H1120" stroke="#E2E8F0"/>
+    <path d="M80 280H1120" stroke="#E2E8F0"/>
+    <path d="M80 360H1120" stroke="#E2E8F0"/>
+    <path d="M80 440H1120" stroke="#E2E8F0"/>
+    <path d="M180 80V550" stroke="#E2E8F0"/>
+    <path d="M340 80V550" stroke="#E2E8F0"/>
+    <path d="M500 80V550" stroke="#E2E8F0"/>
+    <path d="M660 80V550" stroke="#E2E8F0"/>
+    <path d="M820 80V550" stroke="#E2E8F0"/>
+    <path d="M980 80V550" stroke="#E2E8F0"/>
+  </g>
+  <rect x="120" y="128" width="248" height="54" rx="27" fill="#111C34"/>
+  <text x="150" y="163" fill="#6EA8FE" font-size="24" font-family="IBM Plex Mono, monospace">OFFENSIVE / RECON</text>
+  <text x="120" y="286" fill="#F8FAFC" font-size="78" font-weight="700" font-family="Space Grotesk, sans-serif">Web Surface</text>
+  <text x="120" y="366" fill="#F8FAFC" font-size="78" font-weight="700" font-family="Space Grotesk, sans-serif">Mapping</text>
+  <text x="120" y="437" fill="#A8B3C7" font-size="30" font-family="IBM Plex Sans, sans-serif">Read trust boundaries before the first payload.</text>
+  <path d="M836 156C935.89 156 1017 237.11 1017 337V470H860C803.667 470 758 424.333 758 368V337C758 237.11 839.11 156 939 156H836Z" fill="url(#paint1_linear)"/>
+  <path d="M861 232H964" stroke="#CFE2FF" stroke-width="3"/>
+  <path d="M861 286H997" stroke="#CFE2FF" stroke-width="3"/>
+  <path d="M861 340H964" stroke="#CFE2FF" stroke-width="3"/>
+  <path d="M861 394H924" stroke="#CFE2FF" stroke-width="3"/>
+  <defs>
+    <linearGradient id="paint0_linear" x1="64" y1="52" x2="1117" y2="578" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#111A2D"/>
+      <stop offset="1" stop-color="#132A58"/>
+    </linearGradient>
+    <linearGradient id="paint1_linear" x1="758" y1="156" x2="1017" y2="470" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1D4ED8"/>
+      <stop offset="1" stop-color="#0F172A"/>
+    </linearGradient>
+  </defs>
+</svg>

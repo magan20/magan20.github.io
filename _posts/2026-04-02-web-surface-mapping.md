@@ -1,8 +1,8 @@
 ---
 title: "Web Surface Mapping Before the First Payload"
-excerpt: "공격 코드를 보내기 전에 인터페이스와 신뢰 경계를 어떻게 읽고 분류할지에 대한 실전형 메모."
+description: "공격 코드를 보내기 전에 인터페이스와 신뢰 경계를 어떻게 읽고 분류할지에 대한 실전형 메모."
 date: 2026-04-02 12:00:00 +0900
-locale: en-US
+lang: en
 categories: [Offensive, Web]
 tags:
   - web-security
@@ -10,6 +10,9 @@ tags:
   - reconnaissance
 series: Surface Mapping
 pin: true
+image:
+  path: /assets/img/posts/web-surface-mapping/cover.svg
+  alt: Web surface mapping notebook cover
 toc: true
 content_id: "post-web-surface-mapping"
 origin_id:

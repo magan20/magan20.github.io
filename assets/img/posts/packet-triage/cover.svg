@@ -1,0 +1,20 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" rx="36" fill="#EEF3F9"/>
+  <rect x="72" y="72" width="1056" height="486" rx="28" fill="#FFFFFF" stroke="#D6E0EF" stroke-width="2"/>
+  <rect x="120" y="118" width="268" height="46" rx="23" fill="#E8F0FF"/>
+  <text x="148" y="148" fill="#265DAB" font-size="22" font-family="IBM Plex Mono, monospace">RESEARCH NOTE / TRIAGE</text>
+  <text x="120" y="246" fill="#10233B" font-size="70" font-weight="700" font-family="Space Grotesk, sans-serif">Packet Triage</text>
+  <text x="120" y="318" fill="#10233B" font-size="70" font-weight="700" font-family="Space Grotesk, sans-serif">Template</text>
+  <text x="120" y="384" fill="#5D6C83" font-size="28" font-family="IBM Plex Sans, sans-serif">Short-lived incidents need fast questions, not perfect answers.</text>
+  <rect x="722" y="136" width="310" height="348" rx="22" fill="#F8FAFD" stroke="#D6E0EF"/>
+  <path d="M760 196H994" stroke="#C8D5E6" stroke-width="3"/>
+  <path d="M760 246H994" stroke="#C8D5E6" stroke-width="3"/>
+  <path d="M760 296H994" stroke="#C8D5E6" stroke-width="3"/>
+  <path d="M760 346H994" stroke="#C8D5E6" stroke-width="3"/>
+  <path d="M760 396H994" stroke="#C8D5E6" stroke-width="3"/>
+  <rect x="760" y="172" width="96" height="14" rx="7" fill="#265DAB"/>
+  <rect x="760" y="222" width="128" height="14" rx="7" fill="#265DAB"/>
+  <rect x="760" y="272" width="82" height="14" rx="7" fill="#265DAB"/>
+  <rect x="760" y="322" width="110" height="14" rx="7" fill="#265DAB"/>
+  <rect x="760" y="372" width="92" height="14" rx="7" fill="#265DAB"/>
+</svg>

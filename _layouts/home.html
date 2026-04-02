@@ -1,30 +1,60 @@
 ---
 layout: default
 ---
-{%- assign locale = page.locale | default: layout.locale | default: site.locale -%}
 
-<div id="main" role="main">
-  <div class="archive">
-    {{ content }}
+{% include lang.html %}
 
-    <section class="signal-section">
-      <div class="signal-section__header">
-        <p class="signal-kicker">Latest</p>
-        <h2 class="archive__subtitle">Recent Posts</h2>
-      </div>
+{% assign all_pinned = site.posts | where: 'pin', 'true' %}
+{% assign all_normal = site.posts | where_exp: 'item', 'item.pin != true and item.hidden != true' %}
+{% assign posts = '' | split: '' %}
 
-      {% if paginator %}
-        {% assign posts = paginator.posts %}
-      {% else %}
-        {% assign posts = site.posts %}
-      {% endif %}
+{% assign visible_start = paginator.page | minus: 1 | times: paginator.per_page %}
+{% assign visible_end = visible_start | plus: paginator.per_page %}
 
-      {% assign entries_layout = page.entries_layout | default: 'grid' %}
-      <div class="entries-{{ entries_layout }}">
-        {% include documents-collection.html locale=locale entries=posts type=entries_layout %}
-      </div>
-    </section>
+{% if all_pinned.size > visible_start %}
+  {% if all_pinned.size > visible_end %}
+    {% assign pinned_size = paginator.per_page %}
+  {% else %}
+    {% assign pinned_size = all_pinned.size | minus: visible_start %}
+  {% endif %}
 
-    {% include paginator.html locale=locale %}
+  {% for i in (visible_start..all_pinned.size) limit: pinned_size %}
+    {% assign posts = posts | push: all_pinned[i] %}
+  {% endfor %}
+{% else %}
+  {% assign pinned_size = 0 %}
+{% endif %}
+
+{% assign normal_size = paginator.posts | size | minus: pinned_size %}
+
+{% if normal_size > 0 %}
+  {% if pinned_size > 0 %}
+    {% assign normal_start = 0 %}
+  {% else %}
+    {% assign normal_start = visible_start | minus: all_pinned.size %}
+  {% endif %}
+
+  {% assign normal_end = normal_start | plus: normal_size | minus: 1 %}
+
+  {% for i in (normal_start..normal_end) %}
+    {% assign posts = posts | push: all_normal[i] %}
+  {% endfor %}
+{% endif %}
+
+<div class="home-shell flex-grow-1 px-xl-1">
+  {% if content and content != '' %}
+    <div class="home-intro">
+      {{ content }}
+    </div>
+  {% endif %}
+
+  <div id="post-list" class="flex-grow-1 px-xl-1" data-post-list>
+    {% for post in posts %}
+      {% include post-card.html post=post %}
+    {% endfor %}
   </div>
 </div>
+
+{% if paginator.total_pages > 1 %}
+  {% include post-paginator.html %}
+{% endif %}

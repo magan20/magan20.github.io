@@ -1,6 +1,6 @@
 ---
 title: "Detection Pipelines Need Product Thinking"
-excerpt: "탐지 엔지니어링은 룰 작성이 아니라 신호 제품을 설계하는 일에 가깝습니다."
+description: "탐지 엔지니어링은 룰 작성이 아니라 신호 제품을 설계하는 일에 가깝습니다."
 date: 2026-03-28 09:30:00 +0900
 categories: [Defensive, Engineering]
 tags:
@@ -8,6 +8,9 @@ tags:
   - threat-hunting
   - automation
 series: Detection Systems
+image:
+  path: /assets/img/posts/detection-pipeline/cover.svg
+  alt: Detection pipeline blueprint cover
 toc: true
 content_id: "post-detection-pipeline-design"
 origin_id:

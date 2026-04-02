@@ -1,6 +1,6 @@
 ---
 title: "Future Workflow Notes"
-excerpt: "Notion sync와 작성 페이지 확장을 위한 아이디어 메모."
+description: "Notion sync와 작성 페이지 확장을 위한 아이디어 메모."
 date: 2026-04-02 18:00:00 +0900
 categories: [Engineering, Workflow]
 tags:
