@@ -1,0 +1,31 @@
+---
+layout: page
+---
+
+{% include lang.html %}
+
+<div id="archives" class="signal-archive-list ps-xl-3">
+  {% for post in site.posts %}
+    {% assign cur_year = post.date | date: '%Y' %}
+
+    {% if cur_year != last_year %}
+      {% unless forloop.first %}
+        </div>
+      </section>
+      {% endunless %}
+
+      <section class="signal-archive-year">
+        <time class="year lead d-block">{{ cur_year }}</time>
+        <div class="signal-archive-year__posts">
+
+      {% assign last_year = cur_year %}
+    {% endif %}
+
+    {% include archive-post-card.html post=post show_archive_date=true %}
+
+    {% if forloop.last %}
+        </div>
+      </section>
+    {% endif %}
+  {% endfor %}
+</div>
