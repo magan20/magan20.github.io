@@ -1,31 +1,13 @@
-brand:
-  title: SIG//MAGAN
-  subtitle: Security, Offensive, Engineering
-  statement: >
-    공격과 방어의 경계에서 얻은 리서치, 운영 노트, 기술적 판단을 기록하는 개인 보안 저널.
-
 main:
-  - title_ko: 홈
-    title_en: Home
+  - title: "Home"
     url: /
-  - title_ko: 블로그
-    title_en: Blog
+  - title: "Blog"
     url: /blog/
-  - title_ko: 리서치
-    title_en: Research
+  - title: "Research"
     url: /research/
-  - title_ko: 카테고리
-    title_en: Categories
+  - title: "Categories"
     url: /categories/
-  - title_ko: 태그
-    title_en: Tags
+  - title: "Tags"
     url: /tags/
-  - title_ko: 소개
-    title_en: About
+  - title: "About"
     url: /about/
-
-social:
-  - label: GitHub
-    url: https://github.com/magan20
-  - label: RSS
-    url: /feed.xml

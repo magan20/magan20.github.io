@@ -1,126 +1,30 @@
 ---
 layout: default
 ---
-{% assign published_posts = site.posts | where_exp: "doc", "doc.status == 'published'" | sort: "date" | reverse %}
-{% assign published_research = site.research | where_exp: "doc", "doc.status == 'published'" | sort: "date" | reverse %}
-{% assign featured_posts = published_posts | where_exp: "doc", "doc.featured == true" %}
-{% assign spotlight = featured_posts | first %}
-{% if spotlight == nil %}
-  {% assign spotlight = published_posts.first %}
-{% endif %}
-{% assign recent_posts = published_posts | slice: 0, 4 %}
-{% assign research_spotlight = published_research | slice: 0, 3 %}
-<section class="hero">
-  <div class="shell hero-grid">
-    <div class="hero-copy">
-      <p class="section-kicker">Security / Offensive / Engineering</p>
-      <h1>공격과 방어 사이를 기록하는<br>interactive security journal.</h1>
-      <p class="hero-description">
-        웹 공격 표면, 탐지 자동화, 리서치 메모, 도구 제작 과정을 한 곳에서 정리하는
-        bilingual technical blog입니다. 긴 글은 읽기 쉽고, 짧은 노트는 탐색하기 쉽게 설계했습니다.
-      </p>
-      <div class="hero-actions">
-        <a class="button button-primary" href="{{ '/blog/' | relative_url }}">Explore Blog</a>
-        <button class="button button-secondary" type="button" data-focus-search>Focus Search</button>
-      </div>
-      <div class="signal-bar">
-        <span>Taxonomy-first navigation</span>
-        <span>Draft-safe publishing</span>
-        <span>Markdown source of truth</span>
-      </div>
-    </div>
-    <div class="hero-panel">
-      <div class="radar-card">
-        <div class="radar-head">
-          <span>Featured Signal</span>
-          {% if spotlight %}
-            <span>{{ spotlight.date | date: "%Y.%m.%d" }}</span>
-          {% else %}
-            <span>Waiting</span>
-          {% endif %}
-        </div>
-        {% if spotlight %}
-          <h2><a href="{{ spotlight.url | relative_url }}">{{ spotlight.title }}</a></h2>
-          <p>{{ spotlight.description }}</p>
-          {% include taxonomy_badges.html categories=spotlight.categories tags=spotlight.tags series=spotlight.series %}
-        {% else %}
-          <h2>New signal incoming</h2>
-          <p>첫 번째 게시물을 추가하면 이 영역이 자동으로 강조됩니다.</p>
-        {% endif %}
-      </div>
-    </div>
-  </div>
-</section>
+{%- assign locale = page.locale | default: layout.locale | default: site.locale -%}
 
-<section class="surface-section">
-  <div class="shell">
-    <div class="section-head">
-      <div>
-        <p class="section-kicker">Latest Posts</p>
-        <h2>블로그 최신 글</h2>
-      </div>
-      <a href="{{ '/blog/' | relative_url }}" class="text-link">View all posts</a>
-    </div>
-    <div class="card-grid">
-      {% for doc in recent_posts %}
-        {% include article_card.html doc=doc doc_type='post' %}
-      {% endfor %}
-    </div>
-  </div>
-</section>
+<div id="main" role="main">
+  <div class="archive">
+    {{ content }}
 
-<section class="surface-section alt-surface">
-  <div class="shell">
-    <div class="section-head">
-      <div>
-        <p class="section-kicker">Research Notes</p>
-        <h2>빠르게 읽는 리서치 로그</h2>
+    <section class="signal-section">
+      <div class="signal-section__header">
+        <p class="signal-kicker">Latest</p>
+        <h2 class="archive__subtitle">Recent Posts</h2>
       </div>
-      <a href="{{ '/research/' | relative_url }}" class="text-link">Research archive</a>
-    </div>
-    <div class="card-grid compact-grid">
-      {% for doc in research_spotlight %}
-        {% include article_card.html doc=doc doc_type='research' %}
-      {% endfor %}
-    </div>
-  </div>
-</section>
 
-<section class="surface-section">
-  <div class="shell split-grid">
-    <div class="surface-card">
-      <p class="section-kicker">Category Radar</p>
-      <h2>핵심 카테고리</h2>
-      <div class="stack-list">
-        {% for category in site.data.generated_taxonomy.categories %}
-          {% assign slug = category[0] %}
-          {% assign meta = category[1] %}
-          <a class="signal-item" href="{{ meta.url | relative_url }}" style="--signal-color: {{ meta.color | default: '#7cc7ff' }}">
-            <div>
-              <strong>{{ meta.label }}</strong>
-              <p>{{ meta.description }}</p>
-            </div>
-            <span>{{ meta.count }} items</span>
-          </a>
-        {% endfor %}
+      {% if paginator %}
+        {% assign posts = paginator.posts %}
+      {% else %}
+        {% assign posts = site.posts %}
+      {% endif %}
+
+      {% assign entries_layout = page.entries_layout | default: 'grid' %}
+      <div class="entries-{{ entries_layout }}">
+        {% include documents-collection.html locale=locale entries=posts type=entries_layout %}
       </div>
-    </div>
-    <div class="surface-card">
-      <p class="section-kicker">Tag Explorer</p>
-      <h2>자주 쓰는 태그</h2>
-      <div class="tag-cloud">
-        {% for tag in site.data.generated_taxonomy.tags %}
-          {% assign slug = tag[0] %}
-          {% assign meta = tag[1] %}
-          {% if forloop.index <= 8 %}
-            <a class="tag-cloud-item" href="{{ meta.url | relative_url }}" style="--tag-accent: {{ meta.color | default: '#c084fc' }}">
-              #{{ meta.label }}
-              <small>{{ meta.count }}</small>
-            </a>
-          {% endif %}
-        {% endfor %}
-      </div>
-      <button class="button button-secondary" type="button" data-focus-search>Search in Header</button>
-    </div>
+    </section>
+
+    {% include paginator.html locale=locale %}
   </div>
-</section>
+</div>

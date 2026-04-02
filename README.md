@@ -1,38 +1,20 @@
 # SIG//MAGAN
 
-Security research, offensive notes, defensive engineering, and technical field reports for `https://magan20.github.io`.
+`SIG//MAGAN`은 보안 리서치, 오펜시브 사고, 디펜시브 엔지니어링, 자동화 노트를 기록하는 개인 기술 블로그입니다.
 
 ## Stack
 
-- Jekyll with custom layouts
-- GitHub Actions deployment to GitHub Pages
-- Client-side search, taxonomy filters, TOC, and code-copy interactions
+- [Minimal Mistakes](https://github.com/mmistakes/minimal-mistakes) 기반 Jekyll 블로그
+- GitHub Actions를 통한 GitHub Pages 배포
+- 내장 검색, 카테고리/태그 아카이브, 관련 글, 코드 복사 버튼
 
-## Content Model
+## Content Structure
 
-- `_posts/`: long-form blog posts
-- `_research/`: shorter research notes
-- `_drafts/`: working drafts that must not be published
+- `_posts/`: 공개 글과 리서치 노트
+- `_drafts/`: 작업 중인 초안
+- `_pages/`: 소개, 블로그, 리서치, 카테고리, 태그 같은 정보 페이지
 
-All published content uses a shared front matter schema:
-
-```yaml
-title:
-description:
-date:
-slug:
-lang:
-status:
-categories:
-tags:
-series:
-featured:
-toc:
-origin:
-content_id:
-origin_id:
-last_synced_at:
-```
+리서치 노트는 별도 컬렉션 대신 `research-note` 태그를 기준으로 `/research/` 페이지에서 모아 보여줍니다.
 
 ## Local Development
 
@@ -41,8 +23,7 @@ bundle install
 bundle exec jekyll serve
 ```
 
-이 저장소는 로컬의 구형 Ruby와 GitHub Actions의 Ruby 3.3을 함께 수용하기 위해 `Gemfile.lock`을 추적하지 않습니다.
-CI에서는 Ruby 3.3 기준 의존성이 해석되고, 구형 로컬 Ruby에서는 호환 가능한 Sass 변환기를 자동으로 선택합니다.
+`Gemfile.lock`은 저장소에 커밋하지 않습니다. 로컬 환경과 GitHub Actions가 각자 맞는 의존성 집합을 해석하도록 두었습니다.
 
 ## Authoring Helpers
 
@@ -51,16 +32,8 @@ bin/new-post "My New Post"
 bin/new-research "Short Research Note"
 ```
 
-`bin/new-post` and `bin/new-research` both create draft templates in `_drafts/`.
+초안은 `_drafts/`에 생성되고, 공개 시점에 `_posts/YYYY-MM-DD-slug.md`로 옮기면 됩니다.
 
-## Publishing Flow
+## Future Workflow
 
-1. Create a draft in `_drafts/`
-2. Fill in categories and tags
-3. Move the file to `_posts/YYYY-MM-DD-slug.md` or `_research/slug.md`
-4. Set `status: published`
-5. Push to `main` to deploy through GitHub Actions
-
-## Extensibility
-
-Markdown is the source of truth. Future Notion sync or browser-based authoring can generate the same Markdown/front matter shape and submit it through PRs without changing the site renderer.
+Markdown이 정본입니다. 이후 Notion 동기화나 별도 글쓰기 UI를 추가하더라도 같은 front matter 스키마를 만들어 PR 기반으로 반영하는 방향을 유지합니다.

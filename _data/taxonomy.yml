@@ -1,42 +1,33 @@
 categories:
-  offensive:
+  - slug: offensive
     label: Offensive
-    description: >
-      공격 표면 분석, 익스플로잇 리서치, 적대적 관점에서의 시스템 이해를 다룹니다.
-    color: "#ff7b72"
-  defensive:
+    description: "공격 표면 매핑, 취약 지점 탐색, 웹/인프라 인터페이스 읽기"
+    accent: "#0f62d6"
+  - slug: defensive
     label: Defensive
-    description: >
-      탐지, 하드닝, 위협 모델링, 대응 자동화 같은 수비 관점의 기술을 정리합니다.
-    color: "#2ed0a7"
-  engineering:
+    description: "탐지 설계, 운영 가능한 경보 체계, 위협 헌팅과 인시던트 대응"
+    accent: "#1d4ed8"
+  - slug: engineering
     label: Engineering
-    description: >
-      보안 도구 제작, 자동화 파이프라인, 인프라 설계와 같은 엔지니어링 실무를 기록합니다.
-    color: "#7cc7ff"
+    description: "자동화 스크립트, 워크플로 설계, 보안 팀의 생산성을 높이는 기반 작업"
+    accent: "#2563eb"
 
 tags:
-  web-security:
-    label: Web Security
-    description: Browser, web apps, and application-layer attack surface.
-    color: "#ffd166"
-  detection-engineering:
-    label: Detection Engineering
-    description: Practical detection logic, telemetry design, and tuning.
-    color: "#2ed0a7"
-  threat-hunting:
-    label: Threat Hunting
-    description: Search patterns, hypotheses, and evidence-driven hunting.
-    color: "#f3a712"
-  reverse-engineering:
-    label: Reverse Engineering
-    description: Binaries, disassembly, and runtime behavior notes.
-    color: "#ff7b72"
-  automation:
-    label: Automation
-    description: Repeatable workflows, scripts, and pipeline design.
-    color: "#7cc7ff"
-  notes:
-    label: Notes
-    description: Lightweight drafts, ops notes, and quick captures.
-    color: "#c084fc"
+  - slug: reconnaissance
+    label: "Reconnaissance"
+    description: "서비스 구조와 노출 지점을 빠르게 이해하기 위한 관찰 메모"
+  - slug: detection-engineering
+    label: "Detection Engineering"
+    description: "알림 품질과 운영성을 함께 고려한 탐지 설계 기록"
+  - slug: threat-hunting
+    label: "Threat Hunting"
+    description: "로그, 네트워크, 이벤트를 엮어 가설을 검증하는 짧은 노트"
+  - slug: automation
+    label: "Automation"
+    description: "반복 작업을 줄이기 위한 스크립트와 작성 흐름"
+  - slug: workflow
+    label: "Workflow"
+    description: "작성 체계, 리뷰 흐름, 협업 환경을 정리하는 운영 메모"
+  - slug: research-note
+    label: "Research Note"
+    description: "장문 아티클로 자라기 전의 짧은 관찰, 템플릿, 실험 로그"

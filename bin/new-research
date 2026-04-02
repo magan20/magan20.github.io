@@ -27,17 +27,13 @@ fi
 cat > "$file" <<EOF
 ---
 title: "$title"
-description: ""
+excerpt: ""
 date: $timestamp
-slug: "$slug"
-lang: $lang
-status: draft
-categories:
-  - defensive
+locale: $lang
+categories: [Defensive, Operations]
 tags:
+  - research-note
   - notes
-series:
-featured: false
 toc: true
 origin: manual
 content_id:
@@ -56,4 +52,4 @@ Document the research question or incident context.
 EOF
 
 echo "Created $file"
-echo "When ready to publish, move it to _research/$slug.md"
+echo "When ready to publish, move it to _posts/YYYY-MM-DD-$slug.md"

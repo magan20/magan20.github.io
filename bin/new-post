@@ -27,17 +27,12 @@ fi
 cat > "$file" <<EOF
 ---
 title: "$title"
-description: ""
+excerpt: ""
 date: $timestamp
-slug: "$slug"
-lang: $lang
-status: draft
-categories:
-  - engineering
+locale: $lang
+categories: [Engineering, Workflow]
 tags:
   - notes
-series:
-featured: false
 toc: true
 origin: manual
 content_id:

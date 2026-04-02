@@ -1,6 +1,68 @@
 ---
 layout: home
-title: SIG//MAGAN
-description: Security research, offensive notes, defensive engineering, and technical field reports.
-permalink: /
+author_profile: false
+classes:
+  - wide
+  - home-modern
+entries_layout: grid
 ---
+
+<section class="signal-hero">
+  <div class="signal-hero__copy">
+    <p class="signal-kicker">Security / Offensive / Engineering</p>
+    <h1>깔끔한 기록 위에<br>실전 감각을 남기는 보안 블로그.</h1>
+    <p class="signal-lead">
+      웹 공격 표면 분석, 탐지 파이프라인 설계, 짧은 리서치 노트, 자동화 도구 제작 과정을
+      한 흐름으로 연결해 기록합니다. 눈에 띄는 효과보다 읽기 쉬운 구조와 빠른 탐색을 우선합니다.
+    </p>
+    <div class="signal-actions">
+      <a class="btn btn--primary" href="{{ '/blog/' | relative_url }}">Latest Posts</a>
+      <a class="btn btn--inverse" href="{{ '/research/' | relative_url }}">Research Notes</a>
+    </div>
+  </div>
+  <div class="signal-hero__panel">
+    <div class="signal-panel-card">
+      <span>Workflow</span>
+      <strong>Markdown-first publishing</strong>
+      <p>상단 검색, 카테고리, 태그, 관련 글로 연결되는 구조를 기본 흐름으로 사용합니다.</p>
+    </div>
+    <div class="signal-panel-grid">
+      <span>offensive</span>
+      <span>defensive</span>
+      <span>engineering</span>
+      <span>research-note</span>
+    </div>
+  </div>
+</section>
+
+<section class="signal-strip">
+  <span>taxonomy-driven browsing</span>
+  <span>copy-ready code blocks</span>
+  <span>built-in search</span>
+  <span>research-note workflow</span>
+</section>
+
+<section class="signal-grid">
+  {% for category in site.data.taxonomy.categories %}
+    <a class="signal-card signal-card--link" href="{{ '/categories/' | relative_url }}#{{ category.slug }}">
+      <p class="signal-card__eyebrow">{{ category.slug }}</p>
+      <h2>{{ category.label }}</h2>
+      <p>{{ category.description }}</p>
+    </a>
+  {% endfor %}
+</section>
+
+<section class="signal-section">
+  <div class="signal-section__header">
+    <p class="signal-kicker">Tag Explorer</p>
+    <h2 class="archive__subtitle">주요 태그로 빠르게 훑어보기</h2>
+  </div>
+  <div class="signal-tag-grid">
+    {% for tag in site.data.taxonomy.tags %}
+      <a class="signal-tag-card" href="{{ '/tags/' | relative_url }}#{{ tag.slug | slugify }}">
+        <strong>{{ tag.label }}</strong>
+        <span>{{ tag.description }}</span>
+      </a>
+    {% endfor %}
+  </div>
+</section>
