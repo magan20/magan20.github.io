@@ -2,7 +2,22 @@
 {% assign card_body_col = '12' %}
 {% assign show_archive_date = include.show_archive_date | default: false %}
 
-<article class="card-wrapper card signal-post-card signal-post-card--archive" data-reveal>
+<article class="card-wrapper card signal-post-card signal-post-card--archive{% if show_archive_date %} signal-post-card--timeline{% endif %}" data-reveal>
+  {% if show_archive_date %}
+    {% assign df_strftime_m = site.data.locales[lang].df.archives.strftime | default: '/ %m' %}
+    {% assign df_dayjs_m = site.data.locales[lang].df.archives.dayjs | default: '/ MM' %}
+    {% assign ts = post.date | date: '%s' %}
+
+    <div class="signal-post-card__timeline">
+      <div class="signal-post-card__archive-date">
+        <span class="signal-post-card__archive-day" data-ts="{{ ts }}" data-df="DD">{{ post.date | date: '%d' }}</span>
+        <span class="signal-post-card__archive-month" data-ts="{{ ts }}" data-df="{{ df_dayjs_m }}">
+          {{ post.date | date: df_strftime_m }}
+        </span>
+      </div>
+    </div>
+  {% endif %}
+
   <a href="{{ post.url | relative_url }}" class="post-preview row g-0 flex-md-row-reverse">
     {% if post.image %}
       {% assign src = post.image.path | default: post.image %}
@@ -36,19 +51,6 @@
 
     <div class="col-md-{{ card_body_col }}">
       <div class="card-body d-flex flex-column">
-        {% if show_archive_date %}
-          {% assign df_strftime_m = site.data.locales[lang].df.archives.strftime | default: '/ %m' %}
-          {% assign df_dayjs_m = site.data.locales[lang].df.archives.dayjs | default: '/ MM' %}
-          {% assign ts = post.date | date: '%s' %}
-
-          <div class="signal-post-card__archive-date">
-            <span class="signal-post-card__archive-day" data-ts="{{ ts }}" data-df="DD">{{ post.date | date: '%d' }}</span>
-            <span class="signal-post-card__archive-month" data-ts="{{ ts }}" data-df="{{ df_dayjs_m }}">
-              {{ post.date | date: df_strftime_m }}
-            </span>
-          </div>
-        {% endif %}
-
         <div class="signal-post-card__meta">
           {% if post.pin %}
             <span class="signal-post-card__badge">Pinned</span>

@@ -3,29 +3,53 @@ layout: page
 ---
 
 {% include lang.html %}
+{% assign archive_years = site.posts | group_by_exp: 'post', "post.date | date: '%Y'" %}
+{% assign latest_post = site.posts.first %}
 
 <div id="archives" class="signal-archive-list ps-xl-3">
-  {% for post in site.posts %}
-    {% assign cur_year = post.date | date: '%Y' %}
-
-    {% if cur_year != last_year %}
-      {% unless forloop.first %}
+  <section class="signal-archive-intro" data-reveal>
+    <div class="signal-archive-intro__body">
+      <p class="signal-kicker">Publishing Timeline</p>
+      <div class="signal-archive-intro__header">
+        <div>
+          <h2>보안 리서치가 쌓여가는 흐름을 타임라인으로 보여줍니다.</h2>
+          <p class="signal-lead">
+            최신 글과 오래된 기록을 한 화면에서 이어 보면서, 어떤 주제를 언제 집중적으로 다뤘는지 빠르게 훑을 수 있게 정리했습니다.
+          </p>
         </div>
-      </section>
-      {% endunless %}
 
-      <section class="signal-archive-year">
-        <time class="year lead d-block">{{ cur_year }}</time>
-        <div class="signal-archive-year__posts">
-
-      {% assign last_year = cur_year %}
-    {% endif %}
-
-    {% include archive-post-card.html post=post show_archive_date=true %}
-
-    {% if forloop.last %}
+        <div class="signal-archive-intro__stats">
+          <div class="signal-archive-intro__stat">
+            <strong>{{ site.posts | size }}</strong>
+            <span>Published Posts</span>
+          </div>
+          <div class="signal-archive-intro__stat">
+            <strong>{{ archive_years | size }}</strong>
+            <span>Active Years</span>
+          </div>
+          <div class="signal-archive-intro__stat">
+            <strong>{{ latest_post.date | date: '%m.%d' }}</strong>
+            <span>Latest Update</span>
+          </div>
         </div>
-      </section>
-    {% endif %}
+      </div>
+    </div>
+  </section>
+
+  {% for year in archive_years %}
+    <section class="signal-archive-year" data-reveal>
+      <div class="signal-archive-year__header">
+        <div>
+          <time class="year lead d-block">{{ year.name }}</time>
+          <p class="signal-archive-year__eyebrow">{{ year.items | size }} posts archived</p>
+        </div>
+      </div>
+
+      <div class="signal-archive-year__posts">
+        {% for post in year.items %}
+          {% include archive-post-card.html post=post show_archive_date=true %}
+        {% endfor %}
+        </div>
+    </section>
   {% endfor %}
 </div>

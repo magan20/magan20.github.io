@@ -339,18 +339,157 @@ html.js-ready [data-reveal].is-visible {
   gap: 1rem;
 }
 
+.signal-archive-intro {
+  margin-bottom: 1.75rem;
+}
+
+.signal-archive-intro__body {
+  padding: 1.6rem 1.7rem;
+  border: 1px solid var(--signal-border);
+  border-radius: 1.5rem;
+  background:
+    linear-gradient(135deg, var(--signal-accent-soft), rgba(255, 255, 255, 0)),
+    var(--signal-surface-strong);
+  box-shadow: var(--signal-shadow);
+  backdrop-filter: blur(18px);
+}
+
+.signal-archive-intro__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.9fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.signal-archive-intro h2 {
+  margin-bottom: 0.8rem;
+  font-size: clamp(2rem, 1.5rem + 2vw, 3.3rem);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+}
+
+.signal-archive-intro__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.signal-archive-intro__stat {
+  padding: 1rem 0.95rem;
+  border: 1px solid var(--signal-border);
+  border-radius: 1.15rem;
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.signal-archive-intro__stat strong {
+  display: block;
+  font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(1.5rem, 1.15rem + 0.8vw, 2.2rem);
+  line-height: 1;
+}
+
+.signal-archive-intro__stat span {
+  display: block;
+  margin-top: 0.45rem;
+  font-family: "IBM Plex Mono", Monaco, Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted-color);
+}
+
 .signal-archive-year {
-  margin-bottom: 2rem;
+  margin-bottom: 2.4rem;
+}
+
+.signal-archive-year__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 1rem;
 }
 
 .signal-archive-year .year {
-  padding-left: 0.25rem;
   font-family: "IBM Plex Mono", Monaco, Consolas, monospace;
   letter-spacing: 0.06em;
 }
 
+.signal-archive-year__eyebrow {
+  margin: 0.3rem 0 0;
+  font-family: "IBM Plex Mono", Monaco, Consolas, monospace;
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted-color);
+}
+
+.signal-archive-year__posts {
+  --signal-timeline-stamp: 112px;
+  position: relative;
+  gap: 1.2rem;
+}
+
+.signal-archive-year__posts::before {
+  content: "";
+  position: absolute;
+  top: 0.4rem;
+  bottom: 0.4rem;
+  left: calc(var(--signal-timeline-stamp) - 0.6rem);
+  width: 1px;
+  background: linear-gradient(180deg, rgba(37, 99, 235, 0), rgba(37, 99, 235, 0.2) 6%, rgba(37, 99, 235, 0.28) 94%, rgba(37, 99, 235, 0));
+}
+
 .signal-post-card--archive {
   margin-bottom: 0;
+}
+
+.signal-post-card--timeline {
+  display: grid;
+  grid-template-columns: var(--signal-timeline-stamp) minmax(0, 1fr);
+  gap: 1.35rem;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.signal-post-card--timeline::after {
+  display: none;
+}
+
+.signal-post-card--timeline .post-preview {
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--signal-border);
+  border-radius: 1.35rem;
+  background: var(--card-bg);
+  box-shadow: var(--signal-shadow);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.signal-post-card--timeline:hover .post-preview {
+  transform: translateY(-4px);
+  border-color: rgba(37, 99, 235, 0.28);
+}
+
+.signal-post-card__timeline {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 1rem;
+}
+
+.signal-post-card__timeline::after {
+  content: "";
+  position: absolute;
+  top: 1.15rem;
+  right: 0.12rem;
+  width: 0.95rem;
+  height: 0.95rem;
+  border: 3px solid var(--main-bg);
+  border-radius: 999px;
+  background: var(--signal-accent);
+  box-shadow: 0 0 0 0.45rem rgba(37, 99, 235, 0.12);
 }
 
 .signal-post-card--archive .post-preview {
@@ -379,24 +518,30 @@ html.js-ready [data-reveal].is-visible {
 
 .signal-post-card__archive-date {
   display: inline-flex;
-  align-items: baseline;
-  gap: 0.55rem;
-  margin-bottom: 0.55rem;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.15rem;
+  width: calc(100% - 1.65rem);
+  padding: 0.8rem 0.9rem 0.85rem;
+  border: 1px solid rgba(37, 99, 235, 0.14);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, rgba(37, 99, 235, 0.1), rgba(255, 255, 255, 0.55));
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
   font-family: "IBM Plex Mono", Monaco, Consolas, monospace;
   color: var(--signal-accent);
 }
 
 .signal-post-card__archive-day {
   font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 1.8rem;
+  font-size: 2rem;
   line-height: 1;
   letter-spacing: -0.04em;
   color: var(--heading-color);
 }
 
 .signal-post-card__archive-month {
-  font-size: 0.82rem;
-  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
@@ -412,6 +557,47 @@ html.js-ready [data-reveal].is-visible {
 
   .signal-sidebox__stats {
     grid-template-columns: 1fr;
+  }
+
+  .signal-archive-intro__body {
+    padding: 1.25rem;
+  }
+
+  .signal-archive-intro__header {
+    grid-template-columns: 1fr;
+  }
+
+  .signal-archive-intro__stats {
+    grid-template-columns: 1fr;
+  }
+
+  .signal-archive-year__posts {
+    gap: 0.95rem;
+  }
+
+  .signal-archive-year__posts::before {
+    display: none;
+  }
+
+  .signal-post-card--timeline {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .signal-post-card__timeline {
+    justify-content: flex-start;
+    padding-top: 0;
+  }
+
+  .signal-post-card__timeline::after {
+    display: none;
+  }
+
+  .signal-post-card__archive-date {
+    align-items: flex-start;
+    width: auto;
+    max-width: 7rem;
+    padding: 0.7rem 0.8rem;
   }
 
   .signal-post-card--archive .card-body {
