@@ -7,22 +7,6 @@ layout: home
 {% assign defensive_posts = site.posts | where_exp: 'post', "post.categories contains 'Defensive'" %}
 {% assign engineering_posts = site.posts | where_exp: 'post', "post.categories contains 'Engineering'" %}
 
-<section class="signal-hero" data-reveal>
-  <div class="signal-hero__body">
-    <p class="signal-kicker">Security / Offensive / Engineering</p>
-    <h1>Chirpy 위에 보안 리서치 흐름을 얹은, 검색과 탐색이 빠른 기술 블로그.</h1>
-    <p class="signal-lead">
-      내장 검색, 다크 모드, TOC, 태그 아카이브, 빠른 필터를 기본으로 사용하면서
-      오펜시브 메모와 디펜시브 설계 노트를 한 흐름으로 정리합니다.
-    </p>
-    <div class="signal-actions">
-      <a class="btn btn-primary" href="{{ '/research/' | relative_url }}">Research Notes</a>
-      <a class="btn btn-outline-primary" href="{{ '/archives/' | relative_url }}">Archives</a>
-      <a class="btn btn-outline-secondary" href="{{ '/about/' | relative_url }}">About</a>
-    </div>
-  </div>
-</section>
-
 <section class="signal-filter" data-post-filter>
   <div class="signal-filter__chips">
     <button type="button" class="signal-filter__chip is-active" data-filter="all" data-filter-label="All Posts">

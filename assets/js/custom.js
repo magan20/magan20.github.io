@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     revealItems.forEach((item) => item.classList.add('is-visible'));
   }
 
-  const interactiveCards = document.querySelectorAll('.signal-post-card, .signal-hero__body, .signal-hero__panel');
+  const interactiveCards = document.querySelectorAll('.signal-post-card');
 
   interactiveCards.forEach((card) => {
     card.addEventListener('pointermove', (event) => {
