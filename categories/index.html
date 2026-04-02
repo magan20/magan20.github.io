@@ -1,0 +1,20 @@
+---
+layout: page
+title: Categories
+description: 고정 카테고리 축으로 글과 리서치를 빠르게 훑어볼 수 있는 탐색 허브입니다.
+kicker: Taxonomy
+permalink: /categories/
+---
+카테고리는 상위 탐색 축입니다. 세부 주제는 태그와 시리즈로 쪼개고, 카테고리는 글의 관점과 목적을 빠르게 구분하는 데 사용합니다.
+
+<div class="taxonomy-index-grid">
+  {% for category in site.data.generated_taxonomy.categories %}
+    {% assign slug = category[0] %}
+    {% assign meta = category[1] %}
+    <a class="taxonomy-index-card" href="{{ meta.url | relative_url }}" style="--signal-color: {{ meta.color | default: '#7cc7ff' }}">
+      <strong>{{ meta.label }}</strong>
+      <p>{{ meta.description }}</p>
+      <small>{{ meta.count }} published items</small>
+    </a>
+  {% endfor %}
+</div>

@@ -1,0 +1,35 @@
+{% assign doc = include.doc %}
+{% assign doc_type = include.doc_type | default: doc.doc_type | default: 'post' %}
+{% assign doc_label = 'Blog Post' %}
+{% if doc_type == 'research' %}
+  {% assign doc_label = 'Research Note' %}
+{% endif %}
+<article
+  class="entry-card {% if include.featured %}is-featured{% endif %}"
+  data-filter-item
+  data-title="{{ doc.title | downcase | escape }}"
+  data-description="{{ doc.description | default: doc.excerpt | strip_html | strip_newlines | downcase | escape }}"
+  data-tags="{{ doc.tags | join: ' ' | downcase | escape }}"
+  data-categories="{{ doc.categories | join: ' ' | downcase | escape }}"
+  data-series="{{ doc.series | default: '' | downcase | escape }}"
+  data-date="{{ doc.date | date: '%s' }}"
+>
+  <div class="entry-card-head">
+    <span class="entry-card-type">{{ doc_label }}</span>
+    <span class="entry-card-lang">{{ doc.lang | upcase }}</span>
+  </div>
+  <a class="entry-card-link" href="{{ doc.url | relative_url }}">
+    <h3>{{ doc.title }}</h3>
+    <p>{{ doc.description | default: doc.excerpt | strip_html | truncate: 160 }}</p>
+  </a>
+  {% include taxonomy_badges.html categories=doc.categories tags=doc.tags series=doc.series %}
+  <div class="entry-card-meta">
+    <span>{{ doc.date | date: "%Y.%m.%d" }}</span>
+    {% if doc.featured %}
+      <span>Featured</span>
+    {% endif %}
+    {% if doc.origin %}
+      <span>Origin: {{ doc.origin }}</span>
+    {% endif %}
+  </div>
+</article>

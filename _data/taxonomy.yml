@@ -1,0 +1,42 @@
+categories:
+  offensive:
+    label: Offensive
+    description: >
+      공격 표면 분석, 익스플로잇 리서치, 적대적 관점에서의 시스템 이해를 다룹니다.
+    color: "#ff7b72"
+  defensive:
+    label: Defensive
+    description: >
+      탐지, 하드닝, 위협 모델링, 대응 자동화 같은 수비 관점의 기술을 정리합니다.
+    color: "#2ed0a7"
+  engineering:
+    label: Engineering
+    description: >
+      보안 도구 제작, 자동화 파이프라인, 인프라 설계와 같은 엔지니어링 실무를 기록합니다.
+    color: "#7cc7ff"
+
+tags:
+  web-security:
+    label: Web Security
+    description: Browser, web apps, and application-layer attack surface.
+    color: "#ffd166"
+  detection-engineering:
+    label: Detection Engineering
+    description: Practical detection logic, telemetry design, and tuning.
+    color: "#2ed0a7"
+  threat-hunting:
+    label: Threat Hunting
+    description: Search patterns, hypotheses, and evidence-driven hunting.
+    color: "#f3a712"
+  reverse-engineering:
+    label: Reverse Engineering
+    description: Binaries, disassembly, and runtime behavior notes.
+    color: "#ff7b72"
+  automation:
+    label: Automation
+    description: Repeatable workflows, scripts, and pipeline design.
+    color: "#7cc7ff"
+  notes:
+    label: Notes
+    description: Lightweight drafts, ops notes, and quick captures.
+    color: "#c084fc"

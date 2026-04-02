@@ -1,0 +1,66 @@
+title: SIG//MAGAN
+email: audwls2160@naver.com
+description: Security research, offensive notes, defensive engineering, and technical field reports.
+url: "https://magan20.github.io"
+baseurl: ""
+lang: ko
+timezone: Asia/Seoul
+markdown: kramdown
+highlighter: rouge
+permalink: /blog/:slug/
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: "highlight"
+
+collections:
+  research:
+    output: true
+    permalink: /research/:slug/
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      lang: ko
+      status: draft
+      featured: false
+      toc: true
+      origin: manual
+  - scope:
+      path: ""
+      type: research
+    values:
+      layout: post
+      lang: ko
+      status: draft
+      featured: false
+      toc: true
+      origin: manual
+  - scope:
+      path: "blog"
+    values:
+      layout: listing
+      listing_type: posts
+  - scope:
+      path: "research"
+    values:
+      layout: listing
+      listing_type: research
+
+exclude:
+  - README.md
+  - Gemfile.lock
+  - bin

@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ $# -lt 1 ]; then
+  echo 'Usage: bin/new-post "Post Title" [lang]' >&2
+  exit 1
+fi
+
+title="$1"
+lang="${2:-ko}"
+timestamp="$(TZ=Asia/Seoul date '+%Y-%m-%d %H:%M:%S %z')"
+slug="$(
+  printf '%s' "$title" | ruby -e '
+    input = STDIN.read.strip.downcase
+    slug = input.gsub(/[^a-z0-9]+/, "-").gsub(/^-|-$/, "")
+    slug = "post-#{Time.now.strftime("%Y%m%d%H%M%S")}" if slug.empty?
+    print slug
+  '
+)"
+file="_drafts/${slug}.md"
+
+if [ -e "$file" ]; then
+  echo "Refusing to overwrite existing file: $file" >&2
+  exit 1
+fi
+
+cat > "$file" <<EOF
+---
+title: "$title"
+description: ""
+date: $timestamp
+slug: "$slug"
+lang: $lang
+status: draft
+categories:
+  - engineering
+tags:
+  - notes
+series:
+featured: false
+toc: true
+origin: manual
+content_id:
+origin_id:
+last_synced_at:
+---
+## Summary
+
+Write a concise summary of the post.
+
+## Notes
+
+- Key finding
+- Evidence
+- Follow-up
+EOF
+
+echo "Created $file"
+echo "When ready to publish, move it to _posts/YYYY-MM-DD-$slug.md"

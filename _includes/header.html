@@ -1,0 +1,20 @@
+<header class="site-header">
+  <div class="shell header-shell">
+    <a class="brand-link" href="{{ '/' | relative_url }}" aria-label="{{ site.title }}">
+      <span class="brand-mark">SIG//MAGAN</span>
+      <span class="brand-subtitle">{{ site.data.navigation.brand.subtitle }}</span>
+    </a>
+    <nav class="main-nav" aria-label="Main">
+      {% for item in site.data.navigation.main %}
+        <a href="{{ item.url | relative_url }}" class="nav-link {% if page.url == item.url %}is-current{% endif %}">
+          <span>{{ item.title_en }}</span>
+          <small>{{ item.title_ko }}</small>
+        </a>
+      {% endfor %}
+    </nav>
+    <button class="search-trigger" type="button" data-open-search>
+      Search
+      <span>/</span>
+    </button>
+  </div>
+</header>

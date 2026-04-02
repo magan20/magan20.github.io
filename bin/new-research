@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ $# -lt 1 ]; then
+  echo 'Usage: bin/new-research "Research Title" [lang]' >&2
+  exit 1
+fi
+
+title="$1"
+lang="${2:-ko}"
+timestamp="$(TZ=Asia/Seoul date '+%Y-%m-%d %H:%M:%S %z')"
+slug="$(
+  printf '%s' "$title" | ruby -e '
+    input = STDIN.read.strip.downcase
+    slug = input.gsub(/[^a-z0-9]+/, "-").gsub(/^-|-$/, "")
+    slug = "research-#{Time.now.strftime("%Y%m%d%H%M%S")}" if slug.empty?
+    print slug
+  '
+)"
+file="_drafts/research-${slug}.md"
+
+if [ -e "$file" ]; then
+  echo "Refusing to overwrite existing file: $file" >&2
+  exit 1
+fi
+
+cat > "$file" <<EOF
+---
+title: "$title"
+description: ""
+date: $timestamp
+slug: "$slug"
+lang: $lang
+status: draft
+categories:
+  - defensive
+tags:
+  - notes
+series:
+featured: false
+toc: true
+origin: manual
+content_id:
+origin_id:
+last_synced_at:
+---
+## Goal
+
+Document the research question or incident context.
+
+## Evidence
+
+- Observation
+- Indicator
+- Next action
+EOF
+
+echo "Created $file"
+echo "When ready to publish, move it to _research/$slug.md"
