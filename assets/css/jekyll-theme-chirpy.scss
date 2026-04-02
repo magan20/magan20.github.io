@@ -52,8 +52,7 @@ h6 {
 .signal-filter__chip,
 .signal-filter__status,
 .signal-post-card__badge,
-.post-meta,
-.signal-sidebox__stat span {
+.post-meta {
   font-family: "IBM Plex Mono", Monaco, Consolas, monospace;
 }
 
@@ -70,6 +69,16 @@ h6 {
   #panel-wrapper.col-xl-3 {
     width: 28%;
   }
+}
+
+body.is-home #panel-wrapper {
+  display: none;
+}
+
+body.is-home #main-wrapper .row > main,
+body.is-home #tail-wrapper {
+  width: 100%;
+  max-width: 100%;
 }
 
 html.js-ready [data-reveal] {
@@ -93,9 +102,7 @@ html.js-ready [data-reveal].is-visible {
 
 .signal-hero__body,
 .signal-filter,
-.signal-post-card,
-.signal-sidebox,
-.signal-sidebox__stat {
+.signal-post-card {
   border: 1px solid var(--signal-border);
   box-shadow: var(--signal-shadow);
 }
@@ -282,52 +289,6 @@ html.js-ready [data-reveal].is-visible {
   margin-bottom: 1rem;
 }
 
-.signal-sidebox {
-  margin-top: 1rem;
-  padding: 1rem;
-  border-radius: 1.25rem;
-  background: var(--signal-surface);
-  backdrop-filter: blur(18px);
-}
-
-.signal-sidebox__title {
-  margin-bottom: 0.9rem;
-  font-size: 1rem;
-}
-
-.signal-sidebox__stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.65rem;
-}
-
-.signal-sidebox__stat {
-  padding: 0.85rem 0.8rem;
-  border-radius: 1rem;
-  background: var(--signal-surface-strong);
-}
-
-.signal-sidebox__stat strong {
-  display: block;
-  font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 1.45rem;
-}
-
-.signal-sidebox__stat span {
-  display: block;
-  margin-top: 0.35rem;
-  font-size: 0.68rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-muted-color);
-}
-
-.signal-sidebox__copy {
-  margin: 0.9rem 0 0;
-  font-size: 0.94rem;
-  color: var(--text-muted-color);
-}
-
 @media (max-width: 767px) {
   .signal-hero__body,
   .signal-filter {
@@ -336,9 +297,5 @@ html.js-ready [data-reveal].is-visible {
 
   .signal-hero__body {
     padding: 1.4rem;
-  }
-
-  .signal-sidebox__stats {
-    grid-template-columns: 1fr;
   }
 }
