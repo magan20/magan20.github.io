@@ -1,0 +1,25 @@
+{% assign research_notes = site.posts | where_exp: 'post', "post.tags contains 'research-note'" %}
+
+<section class="signal-sidebox" data-reveal>
+  <h2 class="signal-sidebox__title">Home Overview</h2>
+
+  <div class="signal-sidebox__stats">
+    <article class="signal-sidebox__stat">
+      <strong>{{ site.posts | size }}</strong>
+      <span>Posts</span>
+    </article>
+    <article class="signal-sidebox__stat">
+      <strong>{{ research_notes | size }}</strong>
+      <span>Research</span>
+    </article>
+    <article class="signal-sidebox__stat">
+      <strong>{{ site.tags | size }}</strong>
+      <span>Tags</span>
+    </article>
+  </div>
+
+  <p class="signal-sidebox__copy">
+    검색, 테마 전환, TOC, 태그 아카이브는 기본 기능으로 두고,
+    본문에서는 리서치와 글 탐색 흐름만 더 선명하게 보이도록 구성했습니다.
+  </p>
+</section>

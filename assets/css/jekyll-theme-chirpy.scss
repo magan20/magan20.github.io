@@ -49,11 +49,11 @@ h6 {
 
 #sidebar .site-subtitle,
 .signal-kicker,
-.signal-stat span,
 .signal-filter__chip,
 .signal-filter__status,
 .signal-post-card__badge,
-.post-meta {
+.post-meta,
+.signal-sidebox__stat span {
   font-family: "IBM Plex Mono", Monaco, Consolas, monospace;
 }
 
@@ -88,24 +88,19 @@ html.js-ready [data-reveal].is-visible {
 }
 
 .signal-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.9fr);
-  gap: 1.5rem;
   margin-bottom: 1.4rem;
 }
 
 .signal-hero__body,
-.signal-hero__panel,
-.signal-brief,
-.signal-stat,
 .signal-filter,
-.signal-post-card {
+.signal-post-card,
+.signal-sidebox,
+.signal-sidebox__stat {
   border: 1px solid var(--signal-border);
   box-shadow: var(--signal-shadow);
 }
 
 .signal-hero__body,
-.signal-hero__panel,
 .signal-filter {
   border-radius: 1.5rem;
   background: var(--signal-surface);
@@ -167,63 +162,6 @@ html.js-ready [data-reveal].is-visible {
 
 .signal-actions .btn {
   border-radius: 999px;
-}
-
-.signal-hero__panel {
-  display: grid;
-  gap: 1rem;
-  padding: 1rem;
-}
-
-.signal-stat-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem;
-}
-
-.signal-stat,
-.signal-brief {
-  border-radius: 1.25rem;
-  background: var(--signal-surface-strong);
-}
-
-.signal-stat {
-  padding: 1rem;
-}
-
-.signal-stat strong {
-  display: block;
-  font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 1.9rem;
-}
-
-.signal-stat span {
-  display: block;
-  margin-top: 0.4rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-muted-color);
-}
-
-.signal-brief {
-  padding: 1.2rem;
-  background:
-    linear-gradient(140deg, rgba(15, 23, 42, 0.96), rgba(29, 78, 216, 0.92)),
-    url("/assets/images/hero-grid.svg");
-  color: #eff6ff;
-}
-
-.signal-brief span {
-  display: inline-block;
-  margin-bottom: 0.8rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.signal-brief p {
-  margin-bottom: 0;
-  color: rgba(239, 246, 255, 0.86);
 }
 
 .signal-filter {
@@ -344,15 +282,54 @@ html.js-ready [data-reveal].is-visible {
   margin-bottom: 1rem;
 }
 
-@media (max-width: 1199px) {
-  .signal-hero {
-    grid-template-columns: 1fr;
-  }
+.signal-sidebox {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 1.25rem;
+  background: var(--signal-surface);
+  backdrop-filter: blur(18px);
+}
+
+.signal-sidebox__title {
+  margin-bottom: 0.9rem;
+  font-size: 1rem;
+}
+
+.signal-sidebox__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.signal-sidebox__stat {
+  padding: 0.85rem 0.8rem;
+  border-radius: 1rem;
+  background: var(--signal-surface-strong);
+}
+
+.signal-sidebox__stat strong {
+  display: block;
+  font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1.45rem;
+}
+
+.signal-sidebox__stat span {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted-color);
+}
+
+.signal-sidebox__copy {
+  margin: 0.9rem 0 0;
+  font-size: 0.94rem;
+  color: var(--text-muted-color);
 }
 
 @media (max-width: 767px) {
   .signal-hero__body,
-  .signal-hero__panel,
   .signal-filter {
     border-radius: 1.2rem;
   }
@@ -361,7 +338,7 @@ html.js-ready [data-reveal].is-visible {
     padding: 1.4rem;
   }
 
-  .signal-stat-grid {
+  .signal-sidebox__stats {
     grid-template-columns: 1fr;
   }
 }
