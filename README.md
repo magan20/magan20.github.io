@@ -8,6 +8,17 @@
 - GitHub Actions를 통한 GitHub Pages 배포
 - 내장 검색, 카테고리/태그 아카이브, 관련 글, 코드 복사 버튼
 
+## GitHub Pages Setup
+
+이 저장소는 GitHub Pages의 기본 브랜치 빌드가 아니라 커스텀 GitHub Actions 워크플로로 배포합니다.
+
+반드시 저장소의 `Settings > Pages > Build and deployment > Source`를 `GitHub Actions`로 설정해야 합니다.
+
+`Deploy from a branch`로 남아 있으면 GitHub가 자체 `github-pages` 빌더를 실행하고, 이 경우 현재 설정은 다음 오류를 냅니다.
+
+- `The minimal-mistakes-jekyll theme could not be found`
+- `The github-pages gem can't satisfy your Gemfile's dependencies`
+
 ## Content Structure
 
 - `_posts/`: 공개 글과 리서치 노트
