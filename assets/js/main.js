@@ -107,14 +107,15 @@ const setupCodeCopy = () => {
   });
 };
 
-const setupSearch = () => {
-  const overlay = document.querySelector("[data-search-overlay]");
-  const input = overlay?.querySelector("[data-search-input]");
-  const results = overlay?.querySelector("[data-search-results]");
-  if (!overlay || !input || !results) return;
+const setupHeaderSearch = () => {
+  const root = document.querySelector("[data-header-search-root]");
+  const input = root?.querySelector("[data-header-search-input]");
+  const panel = root?.querySelector("[data-header-search-panel]");
+  const results = root?.querySelector("[data-header-search-results]");
+  const meta = root?.querySelector("[data-header-search-meta]");
+  if (!root || !input || !panel || !results || !meta) return;
 
   let loadedIndex = null;
-  let isOpen = false;
 
   const fetchIndex = async () => {
     if (loadedIndex) return loadedIndex;
@@ -128,14 +129,25 @@ const setupSearch = () => {
     }
   };
 
+  const setMeta = (query, count) => {
+    if (!query.trim()) {
+      meta.innerHTML = "<span>Recent</span><span>latest published entries</span>";
+      return;
+    }
+
+    meta.innerHTML = `<span>Results</span><span>${count} match${count === 1 ? "" : "es"} for "${escapeHtml(query)}"</span>`;
+  };
+
   const renderResults = (items, query = "") => {
-    if (!items.length) {
+    const visibleItems = items.slice(0, 8);
+    setMeta(query, items.length);
+
+    if (!visibleItems.length) {
       results.innerHTML = '<p class="muted">검색 결과가 없습니다.</p>';
       return;
     }
 
-    results.innerHTML = items
-      .slice(0, 8)
+    results.innerHTML = visibleItems
       .map(
         (item) => `
           <a class="search-result" href="${escapeHtml(item.url)}">
@@ -149,13 +161,16 @@ const setupSearch = () => {
         `
       )
       .join("");
+  };
 
-    if (!query.trim()) {
-      results.insertAdjacentHTML(
-        "afterbegin",
-        '<p class="muted">최근 공개 글을 먼저 보여주고 있습니다.</p>'
-      );
-    }
+  const open = () => {
+    panel.hidden = false;
+    root.classList.add("is-open");
+  };
+
+  const close = () => {
+    panel.hidden = true;
+    root.classList.remove("is-open");
   };
 
   const searchItems = async () => {
@@ -164,6 +179,7 @@ const setupSearch = () => {
 
     if (!query) {
       renderResults(index, "");
+      open();
       return;
     }
 
@@ -197,40 +213,37 @@ const setupSearch = () => {
       .map(({ item }) => item);
 
     renderResults(matches, query);
+    open();
   };
 
-  const open = async () => {
-    if (isOpen) return;
-    isOpen = true;
-    body.classList.add("search-open");
-    overlay.hidden = false;
-    overlay.setAttribute("aria-hidden", "false");
+  const focusSearch = async () => {
     await fetchIndex();
-    renderResults(loadedIndex || [], "");
-    window.setTimeout(() => input.focus(), 30);
+    if (!input.value.trim()) {
+      renderResults(loadedIndex || [], "");
+    }
+    open();
+    input.focus();
   };
 
-  const close = () => {
-    isOpen = false;
-    overlay.hidden = true;
-    overlay.setAttribute("aria-hidden", "true");
-    body.classList.remove("search-open");
-    input.value = "";
-  };
-
-  document.querySelectorAll("[data-open-search]").forEach((button) => {
-    button.addEventListener("click", open);
-  });
-
-  overlay.querySelectorAll("[data-close-search]").forEach((button) => {
-    button.addEventListener("click", close);
-  });
-
-  overlay.addEventListener("click", (event) => {
-    if (event.target === overlay) close();
-  });
-
+  input.addEventListener("focus", focusSearch);
   input.addEventListener("input", searchItems);
+
+  results.addEventListener("click", (event) => {
+    if (event.target instanceof Element && event.target.closest("a")) {
+      close();
+    }
+  });
+
+  document.querySelectorAll("[data-focus-search]").forEach((button) => {
+    button.addEventListener("click", focusSearch);
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!(event.target instanceof Node)) return;
+    if (!root.contains(event.target)) {
+      close();
+    }
+  });
 
   document.addEventListener("keydown", (event) => {
     const target = event.target;
@@ -240,11 +253,12 @@ const setupSearch = () => {
 
     if ((event.key === "/" || (event.key.toLowerCase() === "k" && (event.metaKey || event.ctrlKey))) && !isField) {
       event.preventDefault();
-      open();
+      focusSearch();
     }
 
-    if (event.key === "Escape" && isOpen) {
+    if (event.key === "Escape" && root.classList.contains("is-open")) {
       close();
+      input.blur();
     }
   });
 };
@@ -342,5 +356,5 @@ const setupListingFilters = () => {
 setupReadingProgress();
 setupTOC();
 setupCodeCopy();
-setupSearch();
+setupHeaderSearch();
 setupListingFilters();
