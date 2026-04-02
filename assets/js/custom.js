@@ -1,10 +1,6 @@
 document.documentElement.classList.add('js-ready');
 
 document.addEventListener('DOMContentLoaded', () => {
-  if (document.querySelector('.home-shell')) {
-    document.body.classList.add('is-home');
-  }
-
   const revealItems = document.querySelectorAll('[data-reveal]');
 
   if ('IntersectionObserver' in window) {
@@ -25,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     revealItems.forEach((item) => item.classList.add('is-visible'));
   }
 
-  const interactiveCards = document.querySelectorAll('.signal-post-card, .signal-hero__body');
+  const interactiveCards = document.querySelectorAll('.signal-post-card, .signal-hero__body, .signal-hero__panel');
 
   interactiveCards.forEach((card) => {
     card.addEventListener('pointermove', (event) => {
