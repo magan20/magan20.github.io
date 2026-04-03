@@ -384,6 +384,19 @@ html.js-ready [data-reveal].is-visible {
   max-height: 280px;
 }
 
+/* Keep the default Chirpy archive timeline aligned with our custom fonts. */
+#archives .year {
+  position: relative;
+  font-family: "Lato", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+#archives .year::after {
+  position: absolute;
+  top: 1.45rem;
+  left: 75px;
+  margin: 0;
+}
+
 html[data-mode='dark'] .signal-post-card,
 html[data-mode='dark'] .signal-filter,
 html[data-mode='dark'] .signal-sidebox,
