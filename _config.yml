@@ -45,7 +45,7 @@ pageviews:
 theme_mode:
 
 cdn:
-avatar: /assets/images/avatar-grid.svg
+avatar: /assets/images/profile.png
 social_preview_image: /assets/img/posts/web-surface-mapping/cover.svg
 
 toc: true
